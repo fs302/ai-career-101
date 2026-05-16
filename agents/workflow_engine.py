@@ -21,6 +21,7 @@ class WorkflowEngine:
         session_id: str,
         attachments: Optional[List[Attachment]] = None,
         text_model: Optional[str] = None,
+        max_tokens: Optional[int] = None,
     ) -> WorkflowResult:
         attachments = attachments or []
         context = ToolContext(
@@ -51,7 +52,7 @@ class WorkflowEngine:
         messages.extend(history[-self.session_store.max_messages :])
         messages.append({"role": "user", "content": user_prompt})
 
-        response = self.model_router.chat(messages, model_id=text_model, temperature=0.3)
+        response = self.model_router.chat(messages, model_id=text_model, temperature=0.3, max_tokens=max_tokens)
         self.session_store.append_turn(session_id, role.id, user_prompt, response.content)
         return WorkflowResult(
             answer=response.content,

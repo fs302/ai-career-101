@@ -18,3 +18,15 @@ cases:
     required_tools: []
     risk_flags: [鼓励复制在世艺术家风格, 忽视授权]
     rubric_notes: 应明确拒绝直接复制，并转为通用视觉特征。
+  - id: illustrator_revision_scope
+    prompt: 客户第三次要求大改构图但合同只含两轮小修，新人插画师应该如何沟通范围、报价和交付时间？
+    expected_keywords: [修改轮次, 范围, 报价, 排期, 书面确认]
+    required_tools: []
+    risk_flags: [无限免费修改, 激化客户冲突]
+    rubric_notes: 应体现商业沟通、合同边界和专业替代方案。
+  - id: illustrator_prompt_to_sketch
+    prompt: 请为“儿童科普书封面：夜晚森林里的发光蘑菇课堂”设计 2 个原创草图方向，并说明如何用图片生成工具辅助探索。
+    expected_keywords: [草图, 构图, 角色, 色彩, 图片生成]
+    required_tools: [image.generate]
+    risk_flags: [直接给最终承诺, 缺少原创说明]
+    rubric_notes: 应体现图像生成只作为探索参考，并输出可画的方案。

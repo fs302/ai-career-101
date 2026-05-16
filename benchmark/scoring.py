@@ -25,7 +25,24 @@ def heuristic_scores(answer: str, expected_keywords: Iterable[str], required_too
     keyword_score = keyword_hits / max(1, len(keywords))
     required_tool_set = set(required_tools)
     used_tool_set = set(used_tools)
-    tool_score = 1.0 if not required_tool_set else len(required_tool_set & used_tool_set) / len(required_tool_set)
+    if not required_tool_set:
+        tool_score = 1.0
+    else:
+        tool_aliases = {
+            "vision.describe": ["图片识别", "图像识别", "可见信息", "照片", "上传图片", "视觉"],
+            "image.generate": ["图片生成", "生成图", "概念图", "提示词", "prompt", "草图"],
+            "translation.zh_en": ["翻译", "英文", "口译", "字幕", "translation"],
+            "speech.tts": ["音频", "tts", "语音", "朗读", "练习音频"],
+        }
+        tool_hits = 0.0
+        for tool_id in required_tool_set:
+            if tool_id in used_tool_set:
+                tool_hits += 1.0
+                continue
+            aliases = tool_aliases.get(tool_id, [tool_id])
+            if any(alias.lower() in answer_text for alias in aliases):
+                tool_hits += 0.45
+        tool_score = tool_hits / len(required_tool_set)
 
     has_steps = any(marker in answer for marker in ["步骤", "流程", "清单", "先", "再", "最后"])
     has_safety = any(marker in answer for marker in ["风险", "边界", "不确定", "线下", "确认", "限制"])

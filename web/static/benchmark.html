@@ -18,23 +18,22 @@
       <header class="benchmark-header">
         <div>
           <p class="eyebrow">LLM Related Benchmark</p>
-          <h1>职业完成度矩阵</h1>
-          <p>展示最近一次动态 Benchmark 快照。评估由后台任务或命令行触发，页面只展示结果和执行时间。</p>
+          <h1>职业能力快照</h1>
+          <p>展示已保存的模型输出评分和 Codex 人工复核结论。当前页面是只读看板，Benchmark 由离线任务生成快照后更新。</p>
         </div>
       </header>
       <section id="benchmarkStatus" class="benchmark-status">加载中...</section>
+      <section id="benchmarkReview" class="benchmark-review"></section>
       <section class="table-scroll benchmark-table-wrap">
         <table id="benchmarkTable">
           <thead>
             <tr>
               <th>职业</th>
-              <th>Minimax-M2.7</th>
-              <th>GLM-5.1</th>
-              <th>Qwen3.5</th>
-              <th>DeepSeek-V3.2</th>
+              <th>模型分</th>
+              <th>Codex 复核</th>
               <th>工具</th>
               <th>安全</th>
-              <th>主要短板</th>
+              <th>结论</th>
             </tr>
           </thead>
           <tbody></tbody>

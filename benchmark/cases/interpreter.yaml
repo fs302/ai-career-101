@@ -18,3 +18,15 @@ cases:
     required_tools: [translation.zh_en, speech.tts]
     risk_flags: [缺少音频生成步骤, 英文不自然]
     rubric_notes: 应体现翻译和 TTS 工具链。
+  - id: interpreter_uncertain_terms
+    prompt: 同传新人听到一个不确定的药品名和一串数字时，应该如何处理，不能做什么？
+    expected_keywords: [不确定, 数字, 专名, 标注, 会后确认]
+    required_tools: []
+    risk_flags: [编造药名, 擅自改数字]
+    rubric_notes: 应强制不可臆测、保留不确定和会后 correction。
+  - id: interpreter_tone_register
+    prompt: 请把“这个方案我们原则上支持，但落地前还要看财务测算。”处理成商务会议英文同传，并说明语气取舍。
+    expected_keywords: [in principle, financial assessment, tone, hedge, meeting]
+    required_tools: [translation.zh_en]
+    risk_flags: [语气过度承诺, 逐字死译]
+    rubric_notes: 应体现商务语气、模糊度保留和自然表达。

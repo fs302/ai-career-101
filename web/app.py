@@ -7,6 +7,7 @@ from fastapi.staticfiles import StaticFiles
 
 from base.career_agent import CareerAgentService
 from base.minimax_tools import InterpreterSpeechService
+from benchmark.config import BENCHMARK_PROVIDERS, DEFAULT_BENCHMARK_PROVIDER, DEFAULT_BENCHMARK_MODELS
 from benchmark.runner import BenchmarkRunner
 from benchmark.storage import BenchmarkStorage
 from commons.env import load_dotenv
@@ -80,6 +81,14 @@ def create_app(container: Optional[AppContainer] = None) -> FastAPI:
     def list_models() -> dict:
         return container.agent_service.model_router.list_models()
 
+    @app.get("/api/benchmark/config")
+    def benchmark_config() -> dict:
+        return {
+            "providers": BENCHMARK_PROVIDERS,
+            "default_provider": DEFAULT_BENCHMARK_PROVIDER,
+            "default_models": DEFAULT_BENCHMARK_MODELS,
+        }
+
     @app.get("/api/tools")
     def list_tools() -> dict:
         return {"tools": container.agent_service.tool_registry.list_specs()}
@@ -119,6 +128,7 @@ def create_app(container: Optional[AppContainer] = None) -> FastAPI:
             "vision_model": result.vision_model,
             "used_image": result.used_image,
             "attachments": result.attachments,
+            "used_tools": result.used_tools,
         }
 
     @app.post("/api/sessions/{session_id}/reset")
@@ -180,6 +190,46 @@ def create_app(container: Optional[AppContainer] = None) -> FastAPI:
     def benchmark_summary() -> dict:
         return container.benchmark_runner.summary()
 
+    @app.post("/api/benchmark/generate")
+    def benchmark_generate(payload: dict | None = None) -> dict:
+        """Phase 1: Generate model outputs without evaluation."""
+        payload = payload or {}
+        try:
+            result = container.benchmark_runner.generate_outputs(
+                role_ids=payload.get("role_ids"),
+                model_ids=payload.get("model_ids"),
+                case_ids=payload.get("case_ids"),
+                case_limit_per_role=payload.get("case_limit_per_role"),
+            )
+            return result
+        except ValueError as error:
+            raise HTTPException(status_code=400, detail=str(error)) from error
+        except Exception as error:
+            raise HTTPException(status_code=502, detail=f"Benchmark generation failed: {error}") from error
+
+    @app.post("/api/benchmark/evaluate")
+    def benchmark_evaluate(run_id: str, judge_model: str, use_llm_judge: bool = True) -> dict:
+        """Phase 2: Evaluate previously generated outputs."""
+        try:
+            result = container.benchmark_runner.evaluate_outputs(
+                run_id=run_id,
+                judge_model_id=judge_model,
+                use_llm_judge=use_llm_judge,
+            )
+            return result
+        except ValueError as error:
+            raise HTTPException(status_code=400, detail=str(error)) from error
+        except Exception as error:
+            raise HTTPException(status_code=502, detail=f"Benchmark evaluation failed: {error}") from error
+
+    @app.get("/api/benchmark/status/{run_id}")
+    def benchmark_status(run_id: str) -> dict:
+        """Get current status and progress of a benchmark run."""
+        try:
+            return container.benchmark_runner.get_run_status(run_id)
+        except FileNotFoundError as error:
+            raise HTTPException(status_code=404, detail=str(error)) from error
+
     @app.post("/api/benchmark/run")
     def benchmark_run(payload: dict | None = None) -> dict:
         payload = payload or {}
@@ -188,6 +238,8 @@ def create_app(container: Optional[AppContainer] = None) -> FastAPI:
                 role_ids=payload.get("role_ids"),
                 model_ids=payload.get("model_ids"),
                 case_ids=payload.get("case_ids"),
+                case_limit_per_role=payload.get("case_limit_per_role"),
+                use_llm_judge=payload.get("use_llm_judge", True),
             )
         except ValueError as error:
             raise HTTPException(status_code=400, detail=str(error)) from error

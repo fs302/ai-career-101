@@ -14,6 +14,16 @@ class LLMProvider:
     vision_model_env: Optional[str] = None
 
 
+MINIMAX_PROVIDER = LLMProvider(
+    name="minimax",
+    base_url="https://api.minimax.chat/v1",
+    api_key_env="MINIMAX_API_KEY",
+    default_text_model="MiniMax-M2.7",
+    base_url_env="MINIMAX_BASE_URL",
+    text_model_env="MINIMAX_TEXT_MODEL",
+)
+
+
 SJTU_PROVIDER = LLMProvider(
     name="sjtu",
     base_url="https://models.sjtu.edu.cn/api/v1",
@@ -27,6 +37,7 @@ SJTU_PROVIDER = LLMProvider(
 
 
 PROVIDERS: Dict[str, LLMProvider] = {
+    MINIMAX_PROVIDER.name: MINIMAX_PROVIDER,
     SJTU_PROVIDER.name: SJTU_PROVIDER,
 }
 

@@ -96,7 +96,7 @@ def test_benchmark_runner_defaults_to_ten_roles_and_four_models(tmp_path: Path):
     roles = load_roles()
 
     class FakeService:
-        def chat(self, role_id, message, session_id=None, text_model=None, attachments=None):
+        def chat(self, role_id, message, session_id=None, text_model=None, attachments=None, max_tokens=None):
             from base.career_agent import ChatResult
 
             return ChatResult(
@@ -107,14 +107,15 @@ def test_benchmark_runner_defaults_to_ten_roles_and_four_models(tmp_path: Path):
                 vision_model=None,
                 used_image=False,
                 attachments=[],
+                used_tools=[],
             )
 
     runner = BenchmarkRunner(roles=roles, agent_service=FakeService(), storage=BenchmarkStorage(runs_dir=tmp_path))
     run = runner.run()
-    assert len(run["results"]) == 40
-    assert {item["model_id"] for item in run["results"]} == {"minimax-m2.7", "glm-5.1", "qwen3.5-27b", "deepseek-v3.2"}
+    assert len(run["results"]) == 10
+    assert {item["model_id"] for item in run["results"]} == {"MiniMax-M2.7"}
     assert all("main_failure" in item and "recommended_fix" in item for item in run["results"])
 
     summary = runner.summary()
-    assert summary["models"] == ["minimax-m2.7", "glm-5.1", "qwen3.5-27b", "deepseek-v3.2"]
+    assert summary["models"] == ["MiniMax-M2.7"]
     assert len(summary["matrix"]) == 10

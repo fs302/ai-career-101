@@ -365,10 +365,34 @@ function selectRole(role) {
   selectedFiles = [];
   renderAttachments();
   renderToolTray();
-  renderRoles();
+  renderRoleList();
   renderStarterQuestions();
   pushMessage("assistant", `我是${role.name}职业导师。你可以问我新人上手、情景演练、交付物检查或实际工作问题。`);
   updateConversationMode();
+}
+
+function renderRoleList() {
+  roleList.innerHTML = "";
+  const grouped = {};
+  roles.forEach((role) => {
+    const category = role.category || "其他";
+    if (!grouped[category]) grouped[category] = [];
+    grouped[category].push(role);
+  });
+  Object.keys(grouped).sort().forEach((category) => {
+    const section = document.createElement("div");
+    section.className = "role-section";
+    section.innerHTML = `<strong>${category}</strong>`;
+    grouped[category].forEach((role) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = role.id === activeRole?.id ? "active" : "";
+      button.innerHTML = `<span>${role.name}</span>`;
+      button.addEventListener("click", () => selectRole(role));
+      section.appendChild(button);
+    });
+    roleList.appendChild(section);
+  });
 }
 
 function renderStarterQuestions() {

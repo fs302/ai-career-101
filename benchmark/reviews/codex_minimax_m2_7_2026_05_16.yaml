@@ -1,0 +1,128 @@
+review_id: codex_minimax_m2_7_2026_05_16
+reviewer: Codex manual review
+reviewed_at: "2026-05-16T17:35:00+08:00"
+source_run_id: b9e9cb41a5924f06af1b633af9a4b2f1
+source_model_id: MiniMax-M2.7
+method: "Local manual review of generated benchmark outputs; no external LLM judge or model API was called."
+summary:
+  overall_score: 0.855
+  conclusion: "MiniMax-M2.7 能稳定产出结构化导师式回复，适合新人上手、流程拆解和清单化交付；主要短板是回答偏长、部分职业缺少真实生产工具链细节，安全/不确定性边界在同声传译等高压场景还需要更硬的约束。"
+  top_roles:
+    - interior_designer
+    - illustrator
+    - nutritionist
+  improvement_priorities:
+    - "为同声传译师增加不确定性标注、术语确认和不可臆测规则。"
+    - "为游戏美工、游戏策划补充引擎约束、性能预算、验收指标和真实迭代流程。"
+    - "为字幕翻译师增加 SRT/timecode 示例、断句压缩和交付检查模板。"
+reviews:
+  barista:
+    codex_score: 0.88
+    grade: B+
+    verdict: "行动性很强，适合新人照着练。"
+    strengths:
+      - "7 天训练计划、SOP、卫生和出品标准明确。"
+      - "能把咖啡师工作拆成设备、萃取、服务和复盘。"
+    weaknesses:
+      - "篇幅偏长，现场交付时需要更短的班前检查版本。"
+      - "少量术语表达不够自然。"
+    recommended_fix: "增加 3 分钟班前 checklist 和杯测/萃取参数记录表。"
+  game_artist:
+    codex_score: 0.82
+    grade: B
+    verdict: "能给出美术交付清单，但生产约束不足。"
+    strengths:
+      - "图标设计和交付规格有基本结构。"
+      - "能提醒一致性、可读性和验收。"
+    weaknesses:
+      - "缺少引擎导入、性能预算、图集、透明通道和多分辨率适配细节。"
+      - "没有体现图片生成/参考图工具的真实工作流。"
+    recommended_fix: "补充 Unity/UE 导入检查、尺寸规范、材质/贴图预算和工具调用记录。"
+  game_designer:
+    codex_score: 0.81
+    grade: B
+    verdict: "文档框架可用，但下一步执行感偏弱。"
+    strengths:
+      - "系统设计文档结构清楚。"
+      - "覆盖目标、规则、反馈和测试方向。"
+    weaknesses:
+      - "缺少可运行原型、数值表、AB 测试和留存指标。"
+      - "对跨团队协作和版本迭代的描述不足。"
+    recommended_fix: "增加一页式 feature spec、可测指标、灰度实验和版本复盘模板。"
+  illustrator:
+    codex_score: 0.90
+    grade: A-
+    verdict: "Brief 询问和风格拆解表现优秀。"
+    strengths:
+      - "能快速抓住客户目标、风格、用途和交付物。"
+      - "新人避坑提示实用。"
+    weaknesses:
+      - "授权、报价、改稿轮次和合同边界还不够具体。"
+      - "图片生成工具可作为草图探索，但未在该输出中体现。"
+    recommended_fix: "补充报价/授权/改稿条款模板，并把 image.generate 纳入草图阶段。"
+  interior_designer:
+    codex_score: 0.92
+    grade: A-
+    verdict: "当前 10 个职业中最接近真实顾问工作流。"
+    strengths:
+      - "空间照片诊断、需求澄清、风险提示和交付结构完整。"
+      - "能兼顾功能动线、收纳、采光、预算和施工可行性。"
+    weaknesses:
+      - "可以进一步压缩成现场沟通版。"
+      - "材料、尺寸和施工节点需要更标准化的输出表。"
+    recommended_fix: "增加量房清单、材料表、预算分层和施工节点检查表。"
+  interpreter:
+    codex_score: 0.80
+    grade: B-
+    verdict: "翻译训练有帮助，但安全边界需要显著加强。"
+    strengths:
+      - "能提供中英转换、语气处理和训练建议。"
+      - "对同传信息取舍有基本意识。"
+    weaknesses:
+      - "出现类似“模糊但保住大意”的表达，容易鼓励猜测。"
+      - "缺少不确定标注、术语确认和会后更正机制。"
+    recommended_fix: "把不可臆测、术语待确认、数字专名复核和会后 correction log 写入强规则。"
+  marketing_planner:
+    codex_score: 0.86
+    grade: B+
+    verdict: "Brief 澄清能力较好，策略落地还可更数据化。"
+    strengths:
+      - "能围绕目标用户、卖点、渠道和素材组织问题。"
+      - "适合新人建立策划前的信息收集习惯。"
+    weaknesses:
+      - "实验设计、预算拆分、归因和效果指标不足。"
+      - "缺少对竞品、素材疲劳和复盘机制的硬要求。"
+    recommended_fix: "增加 KPI 树、投放实验矩阵、素材测试表和复盘模板。"
+  nutritionist:
+    codex_score: 0.88
+    grade: B+
+    verdict: "营养复盘清晰稳健，边界意识较好。"
+    strengths:
+      - "能用区间估算、风险提示和每日复盘组织建议。"
+      - "没有直接替代医疗诊断，适合新人训练沟通流程。"
+    weaknesses:
+      - "特殊人群、慢病、药物相互作用的转介边界还可更明确。"
+      - "照片识别场景需要更标准的数据采集字段。"
+    recommended_fix: "增加特殊人群红线、转介条件和餐盘照片记录模板。"
+  ophthalmologist:
+    codex_score: 0.85
+    grade: B
+    verdict: "问诊训练结构好，但容易显得过临床。"
+    strengths:
+      - "能按症状、病程、风险信号组织新人问诊。"
+      - "安全边界和急症识别基本到位。"
+    weaknesses:
+      - "术语密度偏高，可能让新人照搬成诊断口吻。"
+      - "缺少门诊流程、检查转介和患者沟通演练。"
+    recommended_fix: "加入非诊断表述模板、红旗症状分诊卡和检查前后沟通脚本。"
+  subtitle_translator:
+    codex_score: 0.83
+    grade: B
+    verdict: "语义压缩方法可用，字幕工程细节不足。"
+    strengths:
+      - "能强调口语化、语义压缩和文化转换。"
+      - "适合新人理解字幕翻译和普通笔译的区别。"
+    weaknesses:
+      - "真实 SRT/timecode、每行字数、读速和断句示例不足。"
+      - "示例没有紧扣用户原句，交付检查不够工程化。"
+    recommended_fix: "增加 SRT 示例、CPS/行长限制、术语表和最终 QA checklist。"

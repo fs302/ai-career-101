@@ -18,3 +18,15 @@ cases:
     required_tools: []
     risk_flags: [缺少协作检查, 缺少版本意识]
     rubric_notes: 应体现研发协作和资产流水线意识。
+  - id: game_artist_mobile_performance
+    prompt: 手机游戏战斗界面特效太花、帧率下降。游戏美工新人应该如何和技术美术/程序一起排查？
+    expected_keywords: [粒子, draw call, 贴图, 层级, 性能预算]
+    required_tools: []
+    risk_flags: [只谈美观, 忽视性能预算]
+    rubric_notes: 应体现移动端性能、TA 协作和可量化约束。
+  - id: game_artist_reference_generation
+    prompt: 主美要求先做 3 张原创 UI 风格探索图，新人应该如何使用图片生成工具产出参考并避免版权风险？
+    expected_keywords: [原创, 关键词, 风格板, 迭代, 版权]
+    required_tools: [image.generate]
+    risk_flags: [模仿特定版权作品, 不记录提示词]
+    rubric_notes: 应要求工具产物、提示词版本和版权边界。

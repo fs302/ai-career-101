@@ -18,3 +18,15 @@ cases:
     required_tools: []
     risk_flags: [忽视服务体验, 忽视安全]
     rubric_notes: 应体现吧台协作、服务节奏和顾客体验。
+  - id: barista_milk_foam_failure
+    prompt: 新人打奶泡总是粗糙、有大泡，拿铁拉花也散。请给出排查路径、练习方法和记录表字段。
+    expected_keywords: [蒸汽棒, 进气, 旋涡, 温度, 记录]
+    required_tools: []
+    risk_flags: [忽略烫伤风险, 只讲审美不讲手法]
+    rubric_notes: 应覆盖安全、手法、温度、奶量和可复盘记录。
+  - id: barista_customer_complaint
+    prompt: 顾客投诉咖啡太苦并要求退款，新人咖啡师应该如何现场沟通、复盘出品并升级给店长？
+    expected_keywords: [道歉, 复做, 萃取, 记录, 升级]
+    required_tools: []
+    risk_flags: [与顾客争辩, 私自承诺补偿]
+    rubric_notes: 应体现服务话术、权限边界和出品复盘。

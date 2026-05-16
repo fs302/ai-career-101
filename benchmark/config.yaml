@@ -1,0 +1,36 @@
+# Benchmark Provider Configuration
+# Add new providers and models here
+
+providers:
+  minimax:
+    display_name: "MiniMax (官方)"
+    base_url: "https://api.minimax.chat/v1"
+    api_key_env: "MINIMAX_API_KEY"
+    default_model: "MiniMax-M2.7"
+    models:
+      - id: "MiniMax-M2.7"
+        display_name: "MiniMax-M2.7"
+      - id: "MiniMax-M2.5"
+        display_name: "MiniMax-M2.5"
+      - id: "MiniMax-M2.1"
+        display_name: "MiniMax-M2.1"
+
+  sjtu:
+    display_name: "SJTU (代理)"
+    base_url: "https://models.sjtu.edu.cn/api/v1"
+    api_key_env: "SJTU_API_KEY"
+    default_model: "minimax-m2.7"
+    models:
+      - id: "minimax-m2.7"
+        display_name: "Minimax-M2.7"
+      - id: "glm-5.1"
+        display_name: "GLM-5.1"
+      - id: "qwen3.5-27b"
+        display_name: "Qwen3.5-27b"
+      - id: "deepseek-v3.2"
+        display_name: "DeepSeek-V3.2"
+
+# Default configuration
+default_provider: "minimax"
+default_models:
+  - "MiniMax-M2.7"

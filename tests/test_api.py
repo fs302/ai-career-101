@@ -45,7 +45,7 @@ class FakeService:
             }
         ]
 
-    def chat(self, role_id, message, session_id=None, attachments=None, text_model=None):
+    def chat(self, role_id, message, session_id=None, attachments=None, text_model=None, max_tokens=None):
         from base.career_agent import ChatResult
 
         has_image = any(item[1].startswith("image/") for item in attachments or [])
@@ -57,6 +57,7 @@ class FakeService:
             vision_model="fake-vision" if has_image else None,
             used_image=has_image,
             attachments=[item[0] for item in attachments or []],
+            used_tools=["vision.describe"] if has_image else [],
         )
 
     def reset_session(self, session_id):
@@ -118,12 +119,12 @@ class FakeBenchmarkRunner:
     def summary(self):
         return {
             "runs": [],
-            "models": ["minimax-m2.7", "glm-5.1", "qwen3.5-27b", "deepseek-v3.2"],
+            "models": ["MiniMax-M2.7"],
             "matrix": [
                 {
                     "role_id": "barista",
                     "role_name": "咖啡师",
-                    "models": {"minimax-m2.7": None, "glm-5.1": None, "qwen3.5-27b": None, "deepseek-v3.2": None},
+                    "models": {"MiniMax-M2.7": None},
                     "latest_completion": None,
                     "tool_use_score": None,
                     "safety_score": None,
@@ -133,8 +134,29 @@ class FakeBenchmarkRunner:
             ],
         }
 
-    def run(self, role_ids=None, model_ids=None, case_ids=None):
+    def run(self, role_ids=None, model_ids=None, case_ids=None, case_limit_per_role=None, use_llm_judge=True):
         return {"run_id": "run1", "created_at": "now", "results": []}
+
+    def generate_outputs(self, role_ids=None, model_ids=None, case_ids=None, case_limit_per_role=None, progress_callback=None):
+        return {"run_id": "gen1", "status": "generated", "total_outputs": 10, "config": {}}
+
+    def evaluate_outputs(self, run_id=None, judge_model_id="glm-5.1", use_llm_judge=True, progress_callback=None):
+        return {"run_id": run_id, "status": "completed", "judge_model": judge_model_id, "total_evaluated": 10, "results_count": 4}
+
+    def get_run_status(self, run_id):
+        return {
+            "run_id": run_id,
+            "status": "completed",
+            "config": {},
+            "judge_model": "glm-5.1",
+            "created_at": "now",
+            "outputs_generated_at": "now",
+            "evaluated_at": "now",
+            "outputs_count": 10,
+            "evaluated_count": 10,
+            "roles": ["barista"],
+            "models": ["minimax-m2.7"],
+        }
 
     def get_run(self, run_id):
         return {"run_id": run_id, "results": []}
@@ -222,9 +244,37 @@ def test_benchmark_endpoints(client):
     summary = client.get("/api/benchmark/summary")
     assert summary.status_code == 200
     assert summary.json()["matrix"][0]["role_id"] == "barista"
-    assert summary.json()["models"] == ["minimax-m2.7", "glm-5.1", "qwen3.5-27b", "deepseek-v3.2"]
+    assert summary.json()["models"] == ["MiniMax-M2.7"]
     run = client.post("/api/benchmark/run", json={})
     assert run.status_code == 200
     assert run.json()["run_id"] == "run1"
     detail = client.get("/api/benchmark/runs/run1")
     assert detail.status_code == 200
+
+
+def test_benchmark_generate_endpoint(client):
+    response = client.post("/api/benchmark/generate", json={})
+    assert response.status_code == 200
+    data = response.json()
+    assert data["run_id"] == "gen1"
+    assert data["status"] == "generated"
+    assert data["total_outputs"] == 10
+
+
+def test_benchmark_evaluate_endpoint(client):
+    response = client.post("/api/benchmark/evaluate?run_id=gen1&judge_model=glm-5.1&use_llm_judge=true")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["run_id"] == "gen1"
+    assert data["status"] == "completed"
+    assert data["judge_model"] == "glm-5.1"
+
+
+def test_benchmark_status_endpoint(client):
+    response = client.get("/api/benchmark/status/gen1")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["run_id"] == "gen1"
+    assert data["status"] == "completed"
+    assert data["outputs_count"] == 10
+    assert data["evaluated_count"] == 10

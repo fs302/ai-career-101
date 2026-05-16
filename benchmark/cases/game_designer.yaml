@@ -18,3 +18,15 @@ cases:
     required_tools: []
     risk_flags: [承诺商业成功, 忽略数据验证]
     rubric_notes: 应明确假设、风险、数据观察和迭代方法。
+  - id: game_designer_edge_cases
+    prompt: 一个背包系统文档交给程序前，策划新人必须补齐哪些边界条件和异常流程？
+    expected_keywords: [容量, 堆叠, 丢弃, 网络异常, 测试用例]
+    required_tools: []
+    risk_flags: [只写正常流程, 缺少异常处理]
+    rubric_notes: 应能转化为开发和 QA 可执行的边界用例。
+  - id: game_designer_balance_table
+    prompt: 新人要设计一张 1-10 级武器成长表，应该如何定义字段、公式、验证指标和调参流程？
+    expected_keywords: [字段, 公式, DPS, 曲线, 验证]
+    required_tools: []
+    risk_flags: [随意填数值, 没有验证目标]
+    rubric_notes: 应体现数值设计、曲线控制和测试闭环。

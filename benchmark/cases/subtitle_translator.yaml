@@ -18,3 +18,15 @@ cases:
     required_tools: []
     risk_flags: [缺少格式检查, 缺少术语一致性]
     rubric_notes: 应输出可执行交付检查清单。
+  - id: subtitle_timecode_example
+    prompt: 请把“I mean, it is not perfect, but it is good enough for the demo.”压缩成适合 2 秒字幕的中文，并给出 SRT 示例。
+    expected_keywords: [不完美, 演示, SRT, 时间轴, 压缩]
+    required_tools: [translation.zh_en]
+    risk_flags: [逐字翻译过长, 缺少时间码]
+    rubric_notes: 应输出短字幕和合法 SRT 格式示例。
+  - id: subtitle_term_consistency
+    prompt: 一集里 product roadmap 有时被译成产品路线图，有时译成产品规划。字幕翻译新人应如何建立术语表和审校流程？
+    expected_keywords: [术语表, 一致性, 上下文, 审校, 版本]
+    required_tools: []
+    risk_flags: [随意混用术语, 忽视系列一致性]
+    rubric_notes: 应体现长项目术语管理和交付 QA。

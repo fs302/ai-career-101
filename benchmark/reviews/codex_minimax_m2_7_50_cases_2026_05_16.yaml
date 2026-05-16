@@ -1,0 +1,68 @@
+review_id: codex_minimax_m2_7_50_cases_2026_05_16
+reviewer: Codex manual review
+reviewed_at: "2026-05-16T19:45:00+08:00"
+source_run_id: 4527ab8d649b404284513cb25c70d45c
+source_model_id: MiniMax-M2.7
+method: "MiniMax-only 50-case benchmark; heuristic scoring with real tool-use evidence and Codex manual interpretation. No external judge model was called."
+summary:
+  overall_score: 0.799
+  conclusion: "扩展到每职业 5 个更强 case 后，MiniMax-M2.7 的总体完成度约 79.9%。结构化导师能力仍然稳定，但工具链没有真正进入文本 benchmark 的工作流，营销、同传、字幕、营养师等角色在工具命中和工程化交付上明显掉分。"
+  top_roles:
+    - ophthalmologist
+    - game_artist
+    - interior_designer
+  improvement_priorities:
+    - "把 image.generate、vision.describe、translation.zh_en、speech.tts 接入 benchmark case 的真实附件或工具执行，而不是只让模型口头说明。"
+    - "为低分 case 增加职业交付模板，例如 SRT、投放素材矩阵、TTS 音频产物、餐盘复盘记录。"
+    - "缩短职业系统 prompt，控制 MiniMax 生成时延，并保留 case 级失败记录。"
+reviews:
+  barista:
+    codex_score: 0.81
+    grade: B
+    verdict: "咖啡师无需外部工具，流程和服务意识可用，但安全和真实门店节奏还可加强。"
+    recommended_fix: "增加门店 SOP、烫伤/食品安全、班前班后记录表。"
+  game_artist:
+    codex_score: 0.831
+    grade: B+
+    verdict: "美术规格和交付意识较好，遇到图片生成场景时只会说明流程，缺少真实产物。"
+    recommended_fix: "将 image.generate 作为风格探索 case 的真实工具调用，并记录提示词版本。"
+  game_designer:
+    codex_score: 0.775
+    grade: B-
+    verdict: "系统文档结构可用，但新手引导、数值表和边界用例的可测试性不足。"
+    recommended_fix: "增加 feature spec、数值曲线表、QA 用例和实验指标模板。"
+  illustrator:
+    codex_score: 0.825
+    grade: B+
+    verdict: "商业沟通和版权边界较好，构图/草图工具场景掉分。"
+    recommended_fix: "把 image.generate 输出作为草图探索 artifact，并补充报价、授权、改稿条款。"
+  interior_designer:
+    codex_score: 0.831
+    grade: B+
+    verdict: "施工风险、预算取舍和客户沟通较强，但图片诊断和概念图工具只是口头使用。"
+    recommended_fix: "为照片诊断 case 增加真实图片附件，为概念图 case 调用 image.generate。"
+  interpreter:
+    codex_score: 0.763
+    grade: B-
+    verdict: "同传策略和不确定性边界有改善，但翻译/TTS 工具链没有真实执行，商务语气 case 明显不足。"
+    recommended_fix: "将 translation.zh_en 与 speech.tts 接入同传工作流，加入术语待确认和 correction log。"
+  marketing_planner:
+    codex_score: 0.784
+    grade: B-
+    verdict: "Brief 和数据边界表现好，但素材生成 case 工具分最低，投放实验矩阵不够硬。"
+    recommended_fix: "将 image.generate 用于素材方向产出，并要求 KPI 树、素材矩阵、复盘表。"
+  nutritionist:
+    codex_score: 0.772
+    grade: B-
+    verdict: "慢病和特殊人群边界较好，但照片识别场景没有真实视觉上下文。"
+    recommended_fix: "为餐盘复盘增加图片附件、份量不确定性字段和转介红线。"
+  ophthalmologist:
+    codex_score: 0.844
+    grade: B+
+    verdict: "风险识别和线下就医边界最好，眼科流程训练稳定。"
+    recommended_fix: "照片 case 接入 vision.describe，并补充患者沟通脚本和检查路径。"
+  subtitle_translator:
+    codex_score: 0.756
+    grade: B-
+    verdict: "字幕 QA 有基础，但 SRT/timecode 和翻译工具链是当前短板。"
+    recommended_fix: "增加真实 SRT 输出校验、CPS/行长限制和术语一致性检查。"

@@ -53,3 +53,7 @@ class WorkflowResult:
     used_image: bool = False
     attachments: List[str] = field(default_factory=list)
     tool_results: List[ToolResult] = field(default_factory=list)
+
+    @property
+    def used_tools(self) -> List[str]:
+        return [result.tool_id for result in self.tool_results if result.ok]

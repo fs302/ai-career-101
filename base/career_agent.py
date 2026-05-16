@@ -21,12 +21,13 @@ class ChatResult:
     vision_model: Optional[str]
     used_image: bool
     attachments: List[str]
+    used_tools: List[str]
 
 
 class CareerAgentService:
     def __init__(
         self,
-        provider_name: str = "sjtu",
+        provider_name: str = "minimax",
         model_router: Optional[ModelRouter] = None,
         tool_registry: Optional[ToolRegistry] = None,
         session_store: Optional[SessionStore] = None,
@@ -54,6 +55,7 @@ class CareerAgentService:
         session_id: Optional[str] = None,
         attachments: Optional[List[Tuple[str, str, bytes]]] = None,
         text_model: Optional[str] = None,
+        max_tokens: Optional[int] = None,
     ) -> ChatResult:
         role = self.get_role(role_id)
         if not message.strip():
@@ -70,6 +72,7 @@ class CareerAgentService:
             session_id=session_id,
             attachments=normalized_attachments,
             text_model=text_model,
+            max_tokens=max_tokens,
         )
 
         return ChatResult(
@@ -80,6 +83,7 @@ class CareerAgentService:
             vision_model=result.vision_model,
             used_image=result.used_image,
             attachments=result.attachments,
+            used_tools=result.used_tools,
         )
 
     def reset_session(self, session_id: str) -> None:

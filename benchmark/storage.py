@@ -1,9 +1,11 @@
 import json
+from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 
 RUNS_DIR = Path(__file__).resolve().parents[1] / "data" / "benchmark_runs"
+SNAPSHOTS_DIR = Path(__file__).resolve().parent / "snapshots"
 
 
 class BenchmarkStorage:
@@ -22,9 +24,30 @@ class BenchmarkStorage:
         return json.loads(path.read_text(encoding="utf-8"))
 
     def list_runs(self) -> List[Dict[str, Any]]:
-        if not self.runs_dir.exists():
-            return []
         runs = []
-        for path in sorted(self.runs_dir.glob("*.json"), reverse=True):
+        paths = []
+        if self.runs_dir.exists():
+            paths.extend(self.runs_dir.glob("*.json"))
+        if SNAPSHOTS_DIR.exists():
+            paths.extend(SNAPSHOTS_DIR.glob("*.json"))
+        paths = sorted(paths, key=lambda path: path.stat().st_mtime, reverse=True)
+        for path in paths:
             runs.append(json.loads(path.read_text(encoding="utf-8")))
-        return runs
+        runs_by_id = {}
+        for run in runs:
+            runs_by_id[run["run_id"]] = run
+        return sorted(runs_by_id.values(), key=lambda run: run.get("created_at", ""), reverse=True)
+
+    def update_run_status(self, run_id: str, status: str, **kwargs) -> Dict[str, Any]:
+        """Update run status and optional fields."""
+        run = self.load_run(run_id)
+        run["status"] = status
+        for key, value in kwargs.items():
+            run[key] = value
+        self.save_run(run)
+        return run
+
+    def get_run_status(self, run_id: str) -> str:
+        """Get current status of a run."""
+        run = self.load_run(run_id)
+        return run.get("status", "unknown")

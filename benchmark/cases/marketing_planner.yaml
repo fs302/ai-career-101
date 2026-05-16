@@ -18,3 +18,15 @@ cases:
     required_tools: []
     risk_flags: [编造数据, 承诺销售结果]
     rubric_notes: 应明确数据缺失并提出小规模实验。
+  - id: marketing_creative_matrix
+    prompt: 为一款无糖气泡水做首月投放，请新人策划输出 4 个素材方向、目标人群和验证指标。
+    expected_keywords: [人群, 卖点, 素材, CTR, 转化]
+    required_tools: [image.generate]
+    risk_flags: [编造竞品数据, 承诺爆款]
+    rubric_notes: 应体现素材矩阵、假设和数据验证。
+  - id: marketing_negative_feedback
+    prompt: 新品广告上线后评论区集中质疑“智商税”，新人策划应该如何做舆情判断、回应和复盘？
+    expected_keywords: [舆情, 分类, 回应, 证据, 复盘]
+    required_tools: []
+    risk_flags: [删除所有差评, 甩锅用户]
+    rubric_notes: 应体现品牌风险、证据链和跨团队处理。

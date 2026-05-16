@@ -18,3 +18,15 @@ cases:
     required_tools: [image.generate]
     risk_flags: [承诺最终效果, 忽略预算施工]
     rubric_notes: 应体现 image.generate 的职业化使用方式。
+  - id: interior_budget_cut
+    prompt: 客户预算从 20 万砍到 12 万但不想降低效果，新人室内设计师应该如何重排优先级和沟通取舍？
+    expected_keywords: [预算, 优先级, 主材, 软装, 取舍]
+    required_tools: []
+    risk_flags: [承诺低价高配, 忽视施工质量]
+    rubric_notes: 应体现预算分层、价值工程和客户沟通。
+  - id: interior_site_risk
+    prompt: 施工现场发现承重墙和原图纸不一致，新人设计师应该如何处理，哪些话不能说？
+    expected_keywords: [承重墙, 停工, 物业, 结构工程师, 复核]
+    required_tools: []
+    risk_flags: [擅自改结构, 承诺安全]
+    rubric_notes: 应体现施工安全边界、升级流程和专业责任。

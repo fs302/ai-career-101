@@ -493,6 +493,35 @@ button {
   font-size: 12px;
 }
 
+.benchmark-review {
+  margin-bottom: 14px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #0f1012;
+}
+
+.benchmark-review strong {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 13px;
+}
+
+.benchmark-review span {
+  display: block;
+  color: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 11px;
+}
+
+.benchmark-review p {
+  max-width: 920px;
+  margin: 10px 0 0;
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
 .benchmark-table-wrap {
   border: 1px solid var(--line);
   border-radius: 8px;
