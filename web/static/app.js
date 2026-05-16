@@ -54,7 +54,7 @@ function updateConversationMode() {
   document.body.classList.toggle("has-conversation", hasConversation);
   if (activeRole) {
     welcomeKicker.textContent = activeRole.name;
-    welcomeTitle.textContent = "需要我帮你做点什么？";
+    welcomeTitle.textContent = "从一个真实工作场景开始";
   }
 }
 
@@ -384,12 +384,21 @@ function renderRoleList() {
   Object.keys(grouped).sort().forEach((category) => {
     const section = document.createElement("div");
     section.className = "role-section";
-    section.innerHTML = `<strong>${category}</strong>`;
+    section.innerHTML = `<div class="role-section-title"><span>${escapeHtml(category)}</span><em>${grouped[category].length}</em></div>`;
     grouped[category].forEach((role) => {
       const button = document.createElement("button");
       button.type = "button";
-      button.className = role.id === activeRole?.id ? "active" : "";
-      button.innerHTML = `<span>${role.name}</span>`;
+      button.className = `role-nav-item ${role.id === activeRole?.id ? "active" : ""}`;
+      const initials = role.name.slice(0, 2);
+      const toolCount = (role.tools || []).length;
+      button.innerHTML = `
+        <span class="role-avatar">${escapeHtml(initials)}</span>
+        <span class="role-copy">
+          <strong>${escapeHtml(role.name)}</strong>
+          <small>${escapeHtml(role.tagline || role.category || "")}</small>
+        </span>
+        <span class="role-meta">${toolCount} tools</span>
+      `;
       button.addEventListener("click", () => selectRole(role));
       section.appendChild(button);
     });

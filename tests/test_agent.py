@@ -84,12 +84,12 @@ def test_chat_includes_video_attachment_notice():
 
 
 def test_model_router_override_does_not_mutate_shared_state(monkeypatch):
-    created_models = []
+    created = []
 
     class FakeClient:
         def __init__(self, provider, model=None):
             self.model = model
-            created_models.append(model)
+            created.append((provider.name, model))
 
         def chat(self, messages, temperature=None, max_tokens=None):
             return FakeResponse(content="ok", model=self.model)
@@ -98,7 +98,25 @@ def test_model_router_override_does_not_mutate_shared_state(monkeypatch):
     router = ModelRouter(provider_name="sjtu")
     router.chat([{"role": "user", "content": "a"}], model_id="m1")
     router.chat([{"role": "user", "content": "b"}], model_id="m2")
-    assert created_models == ["m1", "m2"]
+    assert created == [("sjtu", "m1"), ("sjtu", "m2")]
+
+
+def test_model_router_routes_known_model_to_declared_provider(monkeypatch):
+    created = []
+
+    class FakeClient:
+        def __init__(self, provider, model=None):
+            self.model = model
+            created.append((provider.name, model))
+
+        def chat(self, messages, temperature=None, max_tokens=None):
+            return FakeResponse(content="ok", model=self.model)
+
+    monkeypatch.setattr("llms.router.OpenAICompatibleChatModel", FakeClient)
+    router = ModelRouter(provider_name="minimax")
+    router.chat([{"role": "user", "content": "a"}], model_id="glm-5.1")
+    router.chat([{"role": "user", "content": "b"}], model_id="MiniMax-M2.7")
+    assert created == [("sjtu", "glm-5.1"), ("minimax", "MiniMax-M2.7")]
 
 
 def test_reset_session_removes_all_roles_for_session():

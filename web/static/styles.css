@@ -588,17 +588,51 @@ button {
   padding: 0 4px 10px;
 }
 
-.brand h1 {
+.brand h1,
+.brand-home {
+  display: inline-block;
   margin: 0;
+  color: var(--text);
   font-size: 18px;
   font-weight: 650;
   letter-spacing: 0;
+  text-decoration: none;
+}
+
+.brand-home:hover {
+  color: #f5f8ff;
 }
 
 .brand p {
   margin: 4px 0 0;
   color: var(--muted);
   font-size: 12px;
+}
+
+.sidebar-links {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin: 0 0 10px;
+}
+
+.sidebar-links a {
+  display: grid;
+  place-items: center;
+  min-height: 30px;
+  border: 1px solid #303238;
+  border-radius: 8px;
+  background: #17181a;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.sidebar-links a:hover {
+  border-color: #3d414a;
+  background: #24262a;
+  color: var(--text);
 }
 
 .sidebar-tabs {
@@ -637,10 +671,9 @@ button {
 
 .role-list,
 .history-list {
-  gap: 6px;
+  gap: 10px;
 }
 
-.role-button,
 .history-button {
   width: 100%;
   border: 0;
@@ -652,14 +685,11 @@ button {
   text-align: left;
 }
 
-.role-button:hover,
-.role-button.active,
 .history-button:hover,
 .history-button.active {
   background: var(--sidebar-soft);
 }
 
-.role-button strong,
 .history-button strong {
   display: block;
   overflow: hidden;
@@ -669,7 +699,6 @@ button {
   font-weight: 600;
 }
 
-.role-button span,
 .history-button span,
 .history-empty {
   display: block;
@@ -686,6 +715,122 @@ button {
   text-align: center;
 }
 
+.role-section {
+  display: grid;
+  gap: 5px;
+}
+
+.role-section + .role-section {
+  margin-top: 2px;
+}
+
+.role-section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 6px 3px;
+  color: var(--faint);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.role-section-title em {
+  font-style: normal;
+  color: #60646d;
+}
+
+.role-nav-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  min-height: 52px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  padding: 7px 8px;
+  text-align: left;
+}
+
+.role-nav-item:hover {
+  border-color: #3a3d44;
+  background: #26282c;
+}
+
+.role-nav-item.active {
+  border-color: rgba(138, 180, 248, 0.34);
+  background: linear-gradient(180deg, rgba(138, 180, 248, 0.16), rgba(138, 180, 248, 0.06));
+}
+
+.role-nav-item.active::before {
+  content: "";
+  position: absolute;
+  left: -2px;
+  top: 11px;
+  bottom: 11px;
+  width: 2px;
+  border-radius: 999px;
+  background: var(--accent);
+}
+
+.role-avatar {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #3a3d44;
+  border-radius: 8px;
+  background: #161719;
+  color: #dfe6f4;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.role-nav-item.active .role-avatar {
+  border-color: rgba(138, 180, 248, 0.4);
+  background: rgba(138, 180, 248, 0.16);
+  color: #f5f8ff;
+}
+
+.role-copy {
+  min-width: 0;
+}
+
+.role-copy strong,
+.role-copy small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.role-copy strong {
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.role-copy small {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 10.5px;
+  line-height: 1.25;
+}
+
+.role-meta {
+  align-self: start;
+  margin-top: 2px;
+  color: var(--faint);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 9.5px;
+  white-space: nowrap;
+}
+
 .chat-panel {
   position: relative;
   display: grid;
@@ -696,6 +841,7 @@ button {
 }
 
 .chat-header {
+  grid-row: 1;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -707,31 +853,6 @@ button {
   display: flex;
   align-items: center;
   gap: 8px;
-}
-
-.model-picker {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  border-radius: 999px;
-  background: #151618;
-  padding: 5px 8px 5px 10px;
-}
-
-.model-picker span {
-  color: var(--faint);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 10px;
-  letter-spacing: 0.06em;
-}
-
-.model-picker select {
-  max-width: 180px;
-  border: 0;
-  outline: 0;
-  background: transparent;
-  color: var(--text);
-  font-size: 12px;
 }
 
 .chat-header.compact h2,
@@ -762,6 +883,7 @@ button {
 }
 
 .welcome-panel {
+  grid-row: 2;
   width: min(860px, calc(100vw - 340px));
   margin: 26vh auto 24px;
 }
@@ -786,6 +908,7 @@ button {
 }
 
 .starter-row {
+  grid-row: 3;
   display: flex;
   gap: 8px;
   overflow-x: auto;
@@ -818,6 +941,8 @@ button {
 }
 
 .messages {
+  grid-row: 4;
+  min-height: 0;
   padding: 20px max(18px, calc((100vw - 292px - 860px) / 2 + 18px)) 132px;
   overflow-y: auto;
 }
@@ -1002,6 +1127,8 @@ body:not(.has-conversation) .messages {
 }
 
 .composer {
+  grid-row: 5;
+  align-self: end;
   position: sticky;
   bottom: 0;
   display: block;
@@ -1010,16 +1137,13 @@ body:not(.has-conversation) .messages {
 }
 
 body:not(.has-conversation) .composer {
-  position: static;
-  width: min(860px, calc(100vw - 340px));
-  margin: 0 auto;
-  padding: 0 0 22px;
+  padding-top: 0;
   background: transparent;
 }
 
 .composer-box {
   display: grid;
-  grid-template-columns: 34px 1fr 34px;
+  grid-template-columns: 34px minmax(0, 1fr) auto 34px;
   align-items: end;
   gap: 8px;
   max-width: 860px;
@@ -1029,6 +1153,35 @@ body:not(.has-conversation) .composer {
   background: var(--panel);
   padding: 10px 12px;
   box-shadow: none;
+}
+
+.composer-model-picker {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  max-width: 190px;
+  border: 1px solid #34363c;
+  border-radius: 999px;
+  background: #151619;
+  padding: 0 9px;
+}
+
+.composer-model-picker span {
+  color: var(--faint);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+}
+
+.composer-model-picker select {
+  min-width: 112px;
+  max-width: 140px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text);
+  font-size: 11.5px;
 }
 
 .attach-button input {
@@ -1198,7 +1351,12 @@ textarea::placeholder {
   }
 
   .role-list {
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    grid-template-columns: 1fr;
+  }
+
+  .role-nav-item {
+    grid-template-columns: 30px minmax(0, 1fr) auto;
+    min-height: 48px;
   }
 
   .welcome-panel,
@@ -1222,5 +1380,31 @@ textarea::placeholder {
 
   .composer {
     padding: 10px 14px 16px;
+  }
+
+  .composer-box {
+    grid-template-columns: 34px minmax(0, 1fr) 34px;
+  }
+
+  .composer-model-picker {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    justify-self: start;
+    max-width: 100%;
+  }
+
+  .composer-box textarea {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .attach-button {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  #sendBtn {
+    grid-column: 3;
+    grid-row: 2;
   }
 }

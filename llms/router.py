@@ -5,7 +5,7 @@ from typing import Dict, List, Optional, Sequence
 from llms.base import Message, ModelResponse
 from llms.openai_compatible import OpenAICompatibleChatModel, OpenAICompatibleVisionModel
 from llms.providers import LLMProvider, get_provider
-from benchmark.config import DEFAULT_BENCHMARK_MODELS, MODEL_DISPLAY_NAMES, BENCHMARK_PROVIDERS
+from benchmark.config import BENCHMARK_PROVIDERS
 
 
 @dataclass(frozen=True)
@@ -38,7 +38,9 @@ class ModelRouter:
         return (os.environ.get(env_name) if env_name else None) or self.provider.default_vision_model
 
     def text_client(self, model_id: Optional[str] = None) -> OpenAICompatibleChatModel:
-        return OpenAICompatibleChatModel(provider=self.provider, model=model_id or self.default_text_model)
+        provider = self._provider_for_model(model_id)
+        default_model = self.default_text_model if provider.name == self.provider.name else provider.default_text_model
+        return OpenAICompatibleChatModel(provider=provider, model=model_id or default_model)
 
     def vision_client(self, model_id: Optional[str] = None) -> OpenAICompatibleVisionModel:
         return OpenAICompatibleVisionModel(provider=self.provider, model=model_id or self.default_vision_model)
@@ -58,18 +60,26 @@ class ModelRouter:
     def describe_image(self, image_path: str, prompt: str, model_id: Optional[str] = None) -> ModelResponse:
         return self.vision_client(model_id).describe_image(image_path, prompt=prompt)
 
-    def list_models(self) -> Dict[str, List[dict]]:
-        # Build models list from all providers
-        text_models = []
+    def _provider_for_model(self, model_id: Optional[str]) -> LLMProvider:
+        if not model_id:
+            return self.provider
         for provider_id, provider_config in BENCHMARK_PROVIDERS.items():
-            for model_info in provider_config["models"]:
-                text_models.append(ModelInfo(
-                    model_id=model_info["id"],
-                    name=model_info["display_name"],
-                    provider=provider_id,
-                    modality="text",
-                    default=model_info["id"] == provider_config["default_model"],
-                ))
+            if any(model["id"] == model_id for model in provider_config.get("models", [])):
+                return get_provider(provider_id)
+        return self.provider
+
+    def list_models(self) -> Dict[str, List[dict]]:
+        chat_provider = BENCHMARK_PROVIDERS.get("sjtu", {})
+        text_models = [
+            ModelInfo(
+                id=model_info["id"],
+                name=model_info["display_name"],
+                provider="sjtu",
+                modality="text",
+                default=model_info["id"] == chat_provider.get("default_model"),
+            )
+            for model_info in chat_provider.get("models", [])
+        ]
 
         vision_models = [
             ModelInfo(self.default_vision_model or "qwen", self.default_vision_model or "qwen", self.provider_name_value, "vision", True)

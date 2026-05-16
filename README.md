@@ -5,9 +5,28 @@ quickly adapt to professional expectations. It provides 10 structured career
 mentors, workflow-driven chat, tool calling, optional image understanding,
 MiniMax speech synthesis, and a local benchmark dashboard.
 
-The current implementation uses an OpenAI-compatible LLM provider abstraction.
-The bundled SJTU provider defaults to `minimax-m2.7` for text and `qwen` for
-vision.
+The runtime uses an OpenAI-compatible LLM provider abstraction. Configure API
+keys, base URLs, and default models in `.env` (see `.env.example`).
+
+## Overview
+
+Homepage entry points, capability highlights, and links into chat and benchmark.
+
+![Career Agent Framework overview](images/home-intro.png)
+
+## Career Chat
+
+Select a mentor by category, use starter prompts, attach images or videos, pick a
+text model per request, and practice real workflow judgment in conversation.
+
+![Career mentor chat](images/chat.png)
+
+## Benchmark
+
+Role × model completion snapshots with automated scoring and optional human
+review notes. Use the dashboard for quick reads; use the CLI runner for full runs.
+
+![Occupational competency benchmark](images/benchmark.png)
 
 ## Features
 
@@ -48,20 +67,14 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
-Create a local `.env` file. This file is ignored by git.
+Create a local `.env` file (ignored by git):
 
 ```bash
 cp .env.example .env
 ```
 
-Configure SJTU API access:
-
-```bash
-SJTU_API_KEY=your_sjtu_api_key_here
-SJTU_BASE_URL=https://models.sjtu.edu.cn/api/v1
-SJTU_TEXT_MODEL=minimax-m2.7
-SJTU_VISION_MODEL=qwen
-```
+Fill in the variables for your chosen provider (`minimax` or `sjtu` in code;
+see `llms/providers.py` and `.env.example` for env names and defaults).
 
 ## Run
 
@@ -94,8 +107,8 @@ line. The sidebar has a History tab backed by browser localStorage, so users can
 review and switch back to previous local conversations.
 
 Use the model picker in the top-right corner to switch text models per request.
-Available SJTU options include `minimax-m2.7`, `glm-5.1`, `qwen3.5-27b`, and
-`deepseek-v3.2`.
+Available options depend on your provider; common text models include
+`minimax-m2.7`, `glm-5.1`, `qwen3.5-27b`, and `deepseek-v3.2`.
 
 When the 同声传译师 mentor is selected, the composer shows a
 `生成英文口译音频` tool. Enter Chinese source text, click the tool, and the app
@@ -210,7 +223,7 @@ Role YAML files now include:
 Text model:
 
 ```bash
-python examples/test_llm_provider.py --provider sjtu --prompt "请用一句话介绍上海交通大学。"
+python examples/test_llm_provider.py --provider sjtu --prompt "请用一句话介绍你自己。"
 ```
 
 Vision model:
@@ -218,6 +231,8 @@ Vision model:
 ```bash
 python examples/test_llm_provider.py --provider sjtu --skip-text --image /path/to/image.png --image-prompt "请描述这张图片。"
 ```
+
+Use `--provider minimax` when testing against the MiniMax endpoint instead.
 
 ## Role Generation
 
