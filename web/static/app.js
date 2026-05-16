@@ -78,7 +78,7 @@ function startThinkingIndicator(element) {
         <div class="thinking-dot"></div>
         <div>
           <strong>${stage}${dots}</strong>
-          <span>已思考 ${seconds}s · ${modelSelect.value}</span>
+          <span>已思考 ${seconds}s · ${modelSelect?.value || "default"}</span>
         </div>
       </div>
     `;
@@ -251,6 +251,7 @@ function loadHistory() {
 }
 
 function loadPreferredModel() {
+  if (!modelSelect) return;
   const saved = localStorage.getItem(MODEL_KEY);
   if (saved) {
     modelSelect.value = saved;
@@ -258,6 +259,7 @@ function loadPreferredModel() {
 }
 
 async function loadModels() {
+  if (!modelSelect) return;
   const preferred = localStorage.getItem(MODEL_KEY) || modelSelect.value;
   const response = await fetch("/api/models");
   const data = await response.json();
@@ -449,7 +451,7 @@ async function generateInterpreterSpeech() {
   const stopThinking = startThinkingIndicator(pending);
   const formData = new FormData();
   formData.append("source_text", sourceText);
-  formData.append("text_model", modelSelect.value);
+  if (modelSelect?.value) formData.append("text_model", modelSelect.value);
 
   try {
     const response = await fetch("/api/interpreter/translate-speech", { method: "POST", body: formData });
@@ -542,9 +544,11 @@ chatForm.addEventListener("submit", async (event) => {
   }
 });
 
-modelSelect.addEventListener("change", () => {
-  localStorage.setItem(MODEL_KEY, modelSelect.value);
-});
+if (modelSelect) {
+  modelSelect.addEventListener("change", () => {
+    localStorage.setItem(MODEL_KEY, modelSelect.value);
+  });
+}
 
 messageInput.addEventListener("keydown", (event) => {
   if (event.key === "Enter" && !event.shiftKey && !event.isComposing) {
