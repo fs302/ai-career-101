@@ -8,6 +8,30 @@ class FakeService:
         self.tool_registry = FakeToolRegistry()
         self.roles = {}
 
+    def get_role(self, role_id):
+        from careers.roles import CareerRole
+
+        return CareerRole(
+            id=role_id,
+            name="插画师",
+            category="视觉创作",
+            tagline="",
+            profile="",
+            supports_image=True,
+            mentor_goal="",
+            boundaries=[],
+            rules=[],
+            workflow=[],
+            deliverables=[],
+            onboarding_checklist=[],
+            scenarios=[],
+            starter_questions=[],
+            tools=["image.generate"],
+            workflows=[],
+            artifacts=[],
+            benchmark={},
+        )
+
     def list_roles(self):
         return [
             {
@@ -53,17 +77,61 @@ class FakeSpeechService:
 
 class FakeModelRouter:
     def list_models(self):
-        return {"text": [{"id": "fake-text"}], "vision": [{"id": "fake-vision"}], "speech": [{"id": "fake-speech"}]}
+        return {
+            "text": [
+                {"id": "minimax-m2.7"},
+                {"id": "glm-5.1"},
+                {"id": "qwen3.5-27b"},
+                {"id": "deepseek-v3.2"},
+            ],
+            "vision": [{"id": "fake-vision"}],
+            "speech": [{"id": "fake-speech"}],
+        }
 
 
 class FakeToolRegistry:
     def list_specs(self):
-        return [{"id": "vision.describe", "name": "图片理解", "description": "fake", "enabled": True}]
+        return [
+            {"id": "vision.describe", "name": "图片理解", "description": "fake", "enabled": True},
+            {"id": "image.generate", "name": "图片生成", "description": "fake", "enabled": True},
+        ]
+
+    def run(self, tool_id, context, **kwargs):
+        from core.types import ToolResult
+
+        if tool_id == "image.generate":
+            return ToolResult(
+                tool_id=tool_id,
+                ok=True,
+                content="/static/generated/fake.jpg",
+                data={
+                    "image_url": "/static/generated/fake.jpg",
+                    "image_path": "/tmp/fake.jpg",
+                    "prompt": kwargs["prompt"],
+                    "aspect_ratio": kwargs["aspect_ratio"],
+                },
+            )
+        return ToolResult(tool_id=tool_id, ok=False, error="unexpected")
 
 
 class FakeBenchmarkRunner:
     def summary(self):
-        return {"runs": [], "matrix": [{"role_id": "barista", "role_name": "咖啡师", "models": {"minimax-m2.7": None}}]}
+        return {
+            "runs": [],
+            "models": ["minimax-m2.7", "glm-5.1", "qwen3.5-27b", "deepseek-v3.2"],
+            "matrix": [
+                {
+                    "role_id": "barista",
+                    "role_name": "咖啡师",
+                    "models": {"minimax-m2.7": None, "glm-5.1": None, "qwen3.5-27b": None, "deepseek-v3.2": None},
+                    "latest_completion": None,
+                    "tool_use_score": None,
+                    "safety_score": None,
+                    "main_failure": "尚未运行",
+                    "recommended_fix": "运行动态 Benchmark 后生成建议。",
+                }
+            ],
+        }
 
     def run(self, role_ids=None, model_ids=None, case_ids=None):
         return {"run_id": "run1", "created_at": "now", "results": []}
@@ -134,15 +202,28 @@ def test_interpreter_translate_speech_endpoint(client):
 
 
 def test_models_and_tools_endpoints(client):
-    assert client.get("/api/models").json()["text"][0]["id"] == "fake-text"
+    model_ids = [item["id"] for item in client.get("/api/models").json()["text"]]
+    assert model_ids == ["minimax-m2.7", "glm-5.1", "qwen3.5-27b", "deepseek-v3.2"]
     assert client.get("/api/tools").json()["tools"][0]["id"] == "vision.describe"
+
+
+def test_image_generate_endpoint(client):
+    response = client.post(
+        "/api/tools/image-generate",
+        data={"role_id": "illustrator", "prompt": "生成一张角色概念图", "aspect_ratio": "16:9"},
+    )
+    assert response.status_code == 200
+    data = response.json()
+    assert data["image_url"] == "/static/generated/fake.jpg"
+    assert data["prompt"] == "生成一张角色概念图"
 
 
 def test_benchmark_endpoints(client):
     summary = client.get("/api/benchmark/summary")
     assert summary.status_code == 200
     assert summary.json()["matrix"][0]["role_id"] == "barista"
-    run = client.post("/api/benchmark/run", json={"role_ids": ["barista"]})
+    assert summary.json()["models"] == ["minimax-m2.7", "glm-5.1", "qwen3.5-27b", "deepseek-v3.2"]
+    run = client.post("/api/benchmark/run", json={})
     assert run.status_code == 200
     assert run.json()["run_id"] == "run1"
     detail = client.get("/api/benchmark/runs/run1")

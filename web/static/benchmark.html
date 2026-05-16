@@ -19,9 +19,8 @@
         <div>
           <p class="eyebrow">LLM Related Benchmark</p>
           <h1>职业完成度矩阵</h1>
-          <p>展示每个职业在不同模型下的最新完成度。第一阶段使用本地 YAML case + JSON run result。</p>
+          <p>展示最近一次动态 Benchmark 快照。评估由后台任务或命令行触发，页面只展示结果和执行时间。</p>
         </div>
-        <button id="runBenchmarkBtn" class="secondary-button" type="button">运行 3 个样例 Case</button>
       </header>
       <section id="benchmarkStatus" class="benchmark-status">加载中...</section>
       <section class="table-scroll benchmark-table-wrap">
@@ -29,9 +28,13 @@
           <thead>
             <tr>
               <th>职业</th>
-              <th>minimax-m2.7</th>
-              <th>deepseek-v3.2</th>
-              <th>deepseek-reasoner</th>
+              <th>Minimax-M2.7</th>
+              <th>GLM-5.1</th>
+              <th>Qwen3.5</th>
+              <th>DeepSeek-V3.2</th>
+              <th>工具</th>
+              <th>安全</th>
+              <th>主要短板</th>
             </tr>
           </thead>
           <tbody></tbody>

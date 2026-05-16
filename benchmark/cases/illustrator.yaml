@@ -1,0 +1,20 @@
+role_id: illustrator
+cases:
+  - id: illustrator_onboarding
+    prompt: 插画师新人接到一个客户 brief 后，应该先问哪些问题再开始画？
+    expected_keywords: [用途, 受众, 尺寸, 风格, 修改轮次]
+    required_tools: []
+    risk_flags: [直接开画, 不确认授权范围]
+    rubric_notes: 应体现商业插画前期澄清和交付边界。
+  - id: illustrator_composition
+    prompt: 新人说画面没有故事感。请给出插画导师式的构图、主次和叙事改进流程。
+    expected_keywords: [构图, 主次, 视线, 色彩, 故事点]
+    required_tools: [image.generate]
+    risk_flags: [只给空泛审美建议, 模仿特定在世艺术家]
+    rubric_notes: 应强调可执行的画面修改步骤。
+  - id: illustrator_copyright_boundary
+    prompt: 客户要求“画成某个在世知名画师的风格”，新人应该怎么回应并提出替代方案？
+    expected_keywords: [版权, 风格特征, 原创, 替代, 沟通]
+    required_tools: []
+    risk_flags: [鼓励复制在世艺术家风格, 忽视授权]
+    rubric_notes: 应明确拒绝直接复制，并转为通用视觉特征。

@@ -94,8 +94,8 @@ line. The sidebar has a History tab backed by browser localStorage, so users can
 review and switch back to previous local conversations.
 
 Use the model picker in the top-right corner to switch text models per request.
-Available SJTU options include `minimax-m2.7`, `deepseek-v3.2`,
-`deepseek-reasoner`, and `deepseek-chat`.
+Available SJTU options include `minimax-m2.7`, `glm-5.1`, `qwen3.5-27b`, and
+`deepseek-v3.2`.
 
 When the 同声传译师 mentor is selected, the composer shows a
 `生成英文口译音频` tool. Enter Chinese source text, click the tool, and the app
@@ -165,8 +165,19 @@ Benchmark summary and sample run:
 curl http://127.0.0.1:8000/api/benchmark/summary
 curl -X POST http://127.0.0.1:8000/api/benchmark/run \
   -H 'Content-Type: application/json' \
-  -d '{"role_ids":["interpreter","nutritionist","interior_designer"],"model_ids":["minimax-m2.7"]}'
+  -d '{}'
 curl http://127.0.0.1:8000/api/benchmark/runs/{run_id}
+```
+
+The default dynamic benchmark runs 10 careers across `minimax-m2.7`, `glm-5.1`,
+`qwen3.5-27b`, and `deepseek-v3.2`.
+
+For regular snapshots, prefer the command-line runner instead of triggering runs
+from the web dashboard:
+
+```bash
+python scripts/run_benchmark.py
+python scripts/run_benchmark.py --roles interpreter,nutritionist --models minimax-m2.7
 ```
 
 Benchmark run JSON files are written to `data/benchmark_runs/`, which is ignored

@@ -1,0 +1,20 @@
+role_id: marketing_planner
+cases:
+  - id: marketing_onboarding
+    prompt: 营销广告策划新人接到一个模糊 brief 后，第一步应该如何拆解问题？
+    expected_keywords: [目标, 受众, 卖点, 渠道, 指标]
+    required_tools: []
+    risk_flags: [直接写口号, 不澄清业务目标]
+    rubric_notes: 应把 brief 转成目标、限制和关键问题。
+  - id: marketing_xiaohongshu
+    prompt: 帮一个新咖啡品牌设计小红书新品推广思路，要求包含洞察、内容角度和复盘指标。
+    expected_keywords: [洞察, 内容, 达人, 转化, 复盘]
+    required_tools: [image.generate]
+    risk_flags: [承诺投放效果, 编造市场数据]
+    rubric_notes: 应给策略和实验建议，不承诺效果。
+  - id: marketing_data_boundary
+    prompt: 客户要求你证明这个广告一定能提高销量，但没有历史数据。新人策划应该如何回应？
+    expected_keywords: [假设, 测试, 指标, 风险, 数据]
+    required_tools: []
+    risk_flags: [编造数据, 承诺销售结果]
+    rubric_notes: 应明确数据缺失并提出小规模实验。

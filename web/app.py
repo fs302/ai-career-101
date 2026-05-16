@@ -10,6 +10,7 @@ from base.minimax_tools import InterpreterSpeechService
 from benchmark.runner import BenchmarkRunner
 from benchmark.storage import BenchmarkStorage
 from commons.env import load_dotenv
+from core.types import ToolContext
 
 
 APP_DIR = Path(__file__).resolve().parent
@@ -141,12 +142,47 @@ def create_app(container: Optional[AppContainer] = None) -> FastAPI:
             "audio_path": result.audio_path,
         }
 
+    @app.post("/api/tools/image-generate")
+    def generate_image(
+        role_id: str = Form("illustrator"),
+        prompt: str = Form(...),
+        aspect_ratio: str = Form("16:9"),
+    ) -> dict:
+        try:
+            role = container.agent_service.get_role(role_id)
+            context = ToolContext(
+                role=role,
+                model_router=container.agent_service.model_router,
+            )
+            result = container.agent_service.tool_registry.run(
+                "image.generate",
+                context,
+                prompt=prompt,
+                aspect_ratio=aspect_ratio,
+                out_prefix=f"{role.id}-generated",
+            )
+            if not result.ok:
+                raise RuntimeError(result.error or "Image generation failed")
+        except ValueError as error:
+            raise HTTPException(status_code=400, detail=str(error)) from error
+        except Exception as error:
+            raise HTTPException(status_code=502, detail=f"Image generation failed: {error}") from error
+
+        return {
+            "role_id": role.id,
+            "image_url": result.data["image_url"],
+            "image_path": result.data["image_path"],
+            "prompt": result.data["prompt"],
+            "aspect_ratio": result.data["aspect_ratio"],
+        }
+
     @app.get("/api/benchmark/summary")
     def benchmark_summary() -> dict:
         return container.benchmark_runner.summary()
 
     @app.post("/api/benchmark/run")
-    def benchmark_run(payload: dict) -> dict:
+    def benchmark_run(payload: dict | None = None) -> dict:
+        payload = payload or {}
         try:
             return container.benchmark_runner.run(
                 role_ids=payload.get("role_ids"),
@@ -155,6 +191,8 @@ def create_app(container: Optional[AppContainer] = None) -> FastAPI:
             )
         except ValueError as error:
             raise HTTPException(status_code=400, detail=str(error)) from error
+        except Exception as error:
+            raise HTTPException(status_code=502, detail=f"Benchmark run failed: {error}") from error
 
     @app.get("/api/benchmark/runs/{run_id}")
     def benchmark_run_detail(run_id: str) -> dict:

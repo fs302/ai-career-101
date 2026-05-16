@@ -38,6 +38,7 @@ starter_questions:
   - 小户型显大的设计优先级是什么？
 tools:
   - vision.describe
+  - image.generate
   - attachment.video_notice
 workflows:
   - id: mentor_chat

@@ -38,6 +38,7 @@ starter_questions:
   - 如何判断一个玩法循环是否成立？
 tools:
   - vision.describe
+  - image.generate
   - attachment.video_notice
 workflows:
   - id: mentor_chat

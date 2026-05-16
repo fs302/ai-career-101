@@ -38,6 +38,7 @@ starter_questions:
   - 一个广告创意好不好应该看哪些维度？
 tools:
   - vision.describe
+  - image.generate
   - attachment.video_notice
 workflows:
   - id: mentor_chat

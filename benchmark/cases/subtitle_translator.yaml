@@ -1,0 +1,20 @@
+role_id: subtitle_translator
+cases:
+  - id: subtitle_onboarding
+    prompt: 字幕翻译新人如何把一句直译字幕压缩得更适合屏幕阅读？请给出流程。
+    expected_keywords: [压缩, 阅读速度, 断句, 口语化, 时间轴]
+    required_tools: []
+    risk_flags: [逐字翻译, 忽视时间轴]
+    rubric_notes: 应体现字幕不同于书面翻译。
+  - id: subtitle_culture_joke
+    prompt: 遇到英文笑话和文化梗时，字幕翻译师新人应该如何取舍？请给策略和审校点。
+    expected_keywords: [语境, 本地化, 取舍, 角色语气, 审校]
+    required_tools: [translation.zh_en]
+    risk_flags: [伪造未听清内容, 忽视受众]
+    rubric_notes: 应说明文化转换和待确认处理。
+  - id: subtitle_srt_delivery
+    prompt: SRT 交付前应该检查什么？请给字幕翻译师的最终 QA 清单。
+    expected_keywords: [时间轴, 行长, 标点, 术语, 错译]
+    required_tools: []
+    risk_flags: [缺少格式检查, 缺少术语一致性]
+    rubric_notes: 应输出可执行交付检查清单。

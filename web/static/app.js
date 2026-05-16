@@ -457,7 +457,9 @@ async function loadRoles() {
   const response = await fetch("/api/roles");
   const data = await response.json();
   roles = data.roles;
-  selectRole(roles[0]);
+  const requestedRole = new URLSearchParams(window.location.search).get("role");
+  const initialRole = roles.find((role) => role.id === requestedRole) || roles[0];
+  selectRole(initialRole);
   renderHistory();
 }
 

@@ -5,6 +5,7 @@ from typing import Dict, List, Optional, Sequence
 from llms.base import Message, ModelResponse
 from llms.openai_compatible import OpenAICompatibleChatModel, OpenAICompatibleVisionModel
 from llms.providers import LLMProvider, get_provider
+from benchmark.config import DEFAULT_BENCHMARK_MODELS, MODEL_DISPLAY_NAMES
 
 
 @dataclass(frozen=True)
@@ -58,10 +59,8 @@ class ModelRouter:
 
     def list_models(self) -> Dict[str, List[dict]]:
         text_models = [
-            ModelInfo("minimax-m2.7", "Minimax-M2.7", self.provider.name, "text", self.default_text_model == "minimax-m2.7"),
-            ModelInfo("deepseek-v3.2", "DeepSeek-V3.2", self.provider.name, "text", self.default_text_model == "deepseek-v3.2"),
-            ModelInfo("deepseek-reasoner", "DeepSeek Reasoner", self.provider.name, "text", self.default_text_model == "deepseek-reasoner"),
-            ModelInfo("deepseek-chat", "DeepSeek Chat", self.provider.name, "text", self.default_text_model == "deepseek-chat"),
+            ModelInfo(model_id, MODEL_DISPLAY_NAMES[model_id], self.provider.name, "text", self.default_text_model == model_id)
+            for model_id in DEFAULT_BENCHMARK_MODELS
         ]
         vision_models = [
             ModelInfo(self.default_vision_model or "qwen", self.default_vision_model or "qwen", self.provider.name, "vision", True)

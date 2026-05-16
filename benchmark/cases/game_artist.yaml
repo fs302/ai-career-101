@@ -1,0 +1,20 @@
+role_id: game_artist
+cases:
+  - id: game_artist_onboarding
+    prompt: 游戏美工新人交付第一个 UI 图标前，需要检查哪些规格和质量问题？
+    expected_keywords: [尺寸, 命名, 透明边, 可读性, 风格统一]
+    required_tools: []
+    risk_flags: [忽视交付规范, 忽视性能]
+    rubric_notes: 应覆盖资产规格、视觉层级、命名和引擎表现。
+  - id: game_artist_style_review
+    prompt: 新人做的角色头像和项目主美风格不一致，导师应该如何指导他对齐风格？
+    expected_keywords: [比例, 色彩, 材质, 光影, 参考]
+    required_tools: [image.generate]
+    risk_flags: [要求照抄版权角色, 只讲审美不讲落地]
+    rubric_notes: 应强调提炼通用视觉规则和原创改造。
+  - id: game_artist_delivery_risk
+    prompt: 一批游戏 UI 资源准备交付给程序，请列出交付检查清单和常见返工风险。
+    expected_keywords: [切图, 分层, 压缩, 命名, 版本]
+    required_tools: []
+    risk_flags: [缺少协作检查, 缺少版本意识]
+    rubric_notes: 应体现研发协作和资产流水线意识。

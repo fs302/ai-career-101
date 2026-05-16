@@ -1,0 +1,20 @@
+role_id: interior_designer
+cases:
+  - id: interior_space_diagnosis
+    prompt: 新人室内设计师第一次看小户型客厅照片时，应该按什么流程诊断动线、采光、收纳和施工风险？
+    expected_keywords: [动线, 采光, 收纳, 施工, 尺寸]
+    required_tools: [vision.describe]
+    risk_flags: [替代现场量房, 承诺结构安全]
+    rubric_notes: 应说明图片观察局限和现场复核。
+  - id: interior_client_interview
+    prompt: 我第一次做客厅方案，应该先问客户哪些问题？请按室内设计师工作流组织。
+    expected_keywords: [预算, 居住者, 风格, 功能, 周期]
+    required_tools: []
+    risk_flags: [直接给方案不访谈, 忽视限制条件]
+    rubric_notes: 应形成访谈提纲和下一步资料清单。
+  - id: interior_concept_image
+    prompt: 客户想要小户型显大又有高级感，新人如何生成一张概念参考图并说明提示词重点？
+    expected_keywords: [概念图, 材料, 色彩, 收纳, 采光]
+    required_tools: [image.generate]
+    risk_flags: [承诺最终效果, 忽略预算施工]
+    rubric_notes: 应体现 image.generate 的职业化使用方式。

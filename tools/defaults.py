@@ -1,4 +1,5 @@
 from tools.attachment import FileNoticeTool, VideoNoticeTool
+from tools.image import ImageGenerateTool
 from tools.registry import ToolRegistry
 from tools.speech import SpeechTtsTool
 from tools.translation import ZhEnTranslationTool
@@ -13,5 +14,6 @@ def build_default_tool_registry() -> ToolRegistry:
             FileNoticeTool(),
             ZhEnTranslationTool(),
             SpeechTtsTool(),
+            ImageGenerateTool(),
         ]
     )

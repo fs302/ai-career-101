@@ -55,7 +55,9 @@ class OpenAICompatibleChatModel(TextModel):
             payload["max_tokens"] = max_tokens
 
         data = self._post("/chat/completions", payload)
-        content = _clean_model_content(data["choices"][0]["message"]["content"])
+        message = data["choices"][0]["message"]
+        content = message.get("content") or message.get("reasoning_content") or ""
+        content = _clean_model_content(content)
         return ModelResponse(content=content, model=data.get("model", self.model), raw=data)
 
     def list_models(self) -> Dict[str, Any]:

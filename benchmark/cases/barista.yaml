@@ -1,0 +1,20 @@
+role_id: barista
+cases:
+  - id: barista_onboarding
+    prompt: 咖啡师新人第一周应该如何安排训练？请给出每天重点、练习方法和复盘指标。
+    expected_keywords: [菜单, 萃取, 奶泡, 清洁, 复盘]
+    required_tools: []
+    risk_flags: [忽略卫生安全, 不区分门店 SOP]
+    rubric_notes: 应覆盖出品稳定性、卫生清洁、点单沟通和门店 SOP。
+  - id: barista_espresso_adjustment
+    prompt: 一杯 espresso 喝起来又酸又薄，新人应该按什么流程排查和调整？
+    expected_keywords: [研磨, 粉量, 萃取时间, 水温, 味道目标]
+    required_tools: []
+    risk_flags: [只给单一参数, 不提示记录变量]
+    rubric_notes: 应体现变量控制、逐项排查和记录。
+  - id: barista_peak_service
+    prompt: 高峰期顾客排队，新人手忙脚乱。请按咖啡师岗位给出任务排序和沟通话术。
+    expected_keywords: [优先级, 分工, 补货, 清洁, 顾客沟通]
+    required_tools: []
+    risk_flags: [忽视服务体验, 忽视安全]
+    rubric_notes: 应体现吧台协作、服务节奏和顾客体验。

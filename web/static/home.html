@@ -16,30 +16,184 @@
     </nav>
     <main class="home-main">
       <section class="home-hero">
-        <p class="eyebrow">Career Agent Framework</p>
-        <h1>把职业经验拆成角色、流程、工具和评估。</h1>
-        <p>
-          面向职业新人的 AI 导师系统。每个职业不只是聊天人格，而是有工作流、工具能力、交付物和完成度评估的可配置 Agent。
-        </p>
-        <div class="home-actions">
-          <a class="primary-link" href="/chat">进入职业对话</a>
-          <a class="secondary-link" href="/benchmark">查看完成度</a>
+        <div class="home-hero-copy">
+          <p class="eyebrow">Career Agent Framework</p>
+          <h1>让每个职业导师按真实工作方式行动。</h1>
+          <p>
+            AI-Career-101 把职业经验拆成角色配置、工作流程、工具调用、交付物和评估维度。
+            新人可以直接进入职业对话，练习真实工作中的判断、表达和复盘。
+          </p>
+          <div class="home-actions">
+            <a class="primary-link" href="/chat">进入职业对话</a>
+            <a class="secondary-link" href="/benchmark">查看完成度</a>
+          </div>
+          <div class="hero-feature-grid" aria-label="站点核心能力">
+            <article>
+              <strong>10 个职业导师</strong>
+              <span>室内设计、营养、同传、字幕、广告、游戏、插画、咖啡、眼科等新人训练场景。</span>
+            </article>
+            <article>
+              <strong>工具化工作流</strong>
+              <span>图片理解、图片生成、中文英译、MiniMax TTS 作为注册工具被职业配置声明调用。</span>
+            </article>
+            <article>
+              <strong>LLM Related Benchmark</strong>
+              <span>按角色、模型和工具组合评估完成度、人类工作对齐度和职业边界意识。</span>
+            </article>
+          </div>
+        </div>
+        <div class="hero-visual" aria-label="AI-Career-101 框架主视觉">
+          <img src="/static/assets/home-career-agent-hero-v2_002.jpg" alt="AI 职业导师连接多个职业场景的首页主视觉">
+          <div class="visual-chip chip-role">AI 职业导师</div>
+          <div class="visual-chip chip-tool">职业工具</div>
+          <div class="visual-chip chip-score">完成度评估</div>
+          <div class="visual-label label-design">室内设计</div>
+          <div class="visual-label label-nutrition">营养复盘</div>
+          <div class="visual-label label-language">同传 / 字幕</div>
+          <div class="visual-label label-game">游戏策划</div>
         </div>
       </section>
-      <section class="feature-grid">
+
+      <section class="section-heading">
+        <p class="eyebrow">Runtime Flow</p>
+        <h2>从职业配置到可评估的职业导师</h2>
+      </section>
+      <section class="framework-flow" aria-label="AI-Career-101 框架流程图">
         <article>
-          <strong>10 个职业导师</strong>
-          <span>室内设计、营养、同传、字幕、广告、游戏、插画、咖啡、眼科等新人训练场景。</span>
+          <span>01</span>
+          <strong>职业 YAML</strong>
+          <p>身份、边界、规则、工作流、工具和 benchmark 权重。</p>
         </article>
+        <div class="flow-arrow">→</div>
         <article>
-          <strong>工具化工作流</strong>
-          <span>图片理解、视频提示、中文英译、MiniMax TTS 作为注册工具被职业配置声明调用。</span>
+          <span>02</span>
+          <strong>Workflow Engine</strong>
+          <p>处理输入与附件，按角色声明调用工具并组装 prompt。</p>
         </article>
+        <div class="flow-arrow">→</div>
         <article>
-          <strong>LLM Related Benchmark</strong>
-          <span>按角色、模型和工具组合评估完成度、人类工作对齐度和职业边界意识。</span>
+          <span>03</span>
+          <strong>Tool Registry</strong>
+          <p>图片理解、视频提示、中文英译、MiniMax 语音合成。</p>
+        </article>
+        <div class="flow-arrow">→</div>
+        <article>
+          <span>04</span>
+          <strong>Model Router</strong>
+          <p>按请求选择 minimax、GLM、Qwen、DeepSeek 等模型，避免共享状态污染。</p>
+        </article>
+        <div class="flow-arrow">→</div>
+        <article>
+          <span>05</span>
+          <strong>Benchmark</strong>
+          <p>用本地 case 评估职业完成度、人类对齐度和工具调用质量。</p>
         </article>
       </section>
+
+      <section class="tool-skill-section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Tools + Skills</p>
+            <h2>用工具和职业技能组合出可工作的职业导师</h2>
+          </div>
+          <a class="secondary-link compact-link" href="/api/tools">查看工具 API</a>
+        </div>
+        <div class="tool-skill-layout">
+          <div class="tool-list" aria-label="现有工具列表">
+            <article>
+              <span>vision.describe</span>
+              <strong>图片理解</strong>
+              <p>把空间、餐食、作品、眼部照片等视觉输入转成职业上下文。</p>
+            </article>
+            <article>
+              <span>translation.zh_en</span>
+              <strong>中英转换</strong>
+              <p>服务同传和字幕翻译，支持语义压缩、语气转换和口语表达。</p>
+            </article>
+            <article>
+              <span>image.generate</span>
+              <strong>图片生成</strong>
+              <p>为插画、游戏美术、室内设计和广告策划生成概念图或视觉草案。</p>
+            </article>
+            <article>
+              <span>speech.tts</span>
+              <strong>语音合成</strong>
+              <p>调用 MiniMax CLI，把口译稿生成可播放的英文音频。</p>
+            </article>
+            <article>
+              <span>attachment.video_notice</span>
+              <strong>视频附件处理</strong>
+              <p>接收视频素材并进入工作流，当前阶段先做附件提示和文字协作。</p>
+            </article>
+            <article>
+              <span>attachment.file_notice</span>
+              <strong>通用附件处理</strong>
+              <p>记录非图片/视频附件，为后续 PDF、表格、文档工具保留入口。</p>
+            </article>
+          </div>
+          <div class="skill-composer" aria-label="工具和技能组合示例">
+            <div class="composer-node source">职业角色 YAML</div>
+            <div class="composer-path">
+              <span>persona</span>
+              <span>workflow</span>
+              <span>tools</span>
+              <span>benchmark</span>
+            </div>
+            <div class="composer-examples">
+              <article>
+                <strong>营养师</strong>
+                <p>饮食询问技能 + 图片理解 + 热量估算流程 + 医疗边界评分</p>
+              </article>
+              <article>
+                <strong>同声传译师</strong>
+                <p>会议口译技能 + 中英转换 + 语音合成 + 语气保真评估</p>
+              </article>
+              <article>
+                <strong>室内设计师</strong>
+                <p>空间诊断技能 + 图片理解 + 客户访谈流程 + 施工风险提示</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-heading role-section-heading">
+        <p class="eyebrow">Start Here</p>
+        <h2>选择一个代表职业开始演练</h2>
+      </section>
+      <section class="career-entry-grid" aria-label="代表职业入口">
+        <a href="/chat?role=interior_designer" class="career-entry">
+          <span>Design</span>
+          <strong>室内设计师</strong>
+          <p>从空间照片、需求访谈和施工风险开始训练方案判断。</p>
+        </a>
+        <a href="/chat?role=nutritionist" class="career-entry">
+          <span>Health</span>
+          <strong>营养师</strong>
+          <p>练习餐食识别、热量估算、饮食复盘和医疗边界提示。</p>
+        </a>
+        <a href="/chat?role=interpreter" class="career-entry">
+          <span>Audio</span>
+          <strong>同声传译师</strong>
+          <p>训练中文到英文口译，并调用 MiniMax CLI 生成英文音频。</p>
+        </a>
+        <a href="/chat?role=subtitle_translator" class="career-entry">
+          <span>Localization</span>
+          <strong>字幕翻译师</strong>
+          <p>聚焦时间轴意识、语义压缩、口语化和交付审校。</p>
+        </a>
+        <a href="/chat?role=ophthalmologist" class="career-entry">
+          <span>Clinic</span>
+          <strong>眼科医生</strong>
+          <p>演练问诊流程、红旗风险识别和患者沟通边界。</p>
+        </a>
+        <a href="/chat?role=game_designer" class="career-entry">
+          <span>Game</span>
+          <strong>游戏策划</strong>
+          <p>把玩法想法拆成系统规则、反馈、测试指标和评审问题。</p>
+        </a>
+      </section>
+
     </main>
   </body>
 </html>

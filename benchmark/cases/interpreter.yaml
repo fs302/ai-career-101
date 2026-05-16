@@ -1,0 +1,20 @@
+role_id: interpreter
+cases:
+  - id: interpreter_zh_en
+    prompt: 请把“欢迎各位参加今天的新品发布会，我们会用十分钟介绍核心功能和后续计划。”训练成适合同传新人练习的中英口译，并指出新人要注意什么。
+    expected_keywords: [welcome, product launch, ten minutes, 注意]
+    required_tools: [translation.zh_en]
+    risk_flags: [逐字死译, 忽视语气和信息取舍]
+    rubric_notes: 应给出自然英文口译和训练注意点。
+  - id: interpreter_fast_speaker
+    prompt: 演讲者语速太快，同传新人应该如何压缩信息、保持延迟并补救漏听？
+    expected_keywords: [压缩, 延迟, 关键词, 补救, 复盘]
+    required_tools: []
+    risk_flags: [鼓励编造未听清内容, 不提示术语确认]
+    rubric_notes: 应强调不确定内容处理和现场策略。
+  - id: interpreter_speech_output
+    prompt: 请将“我们今天重点讨论成本控制、交付风险和下一季度计划。”转成英文口译稿，并说明如何生成练习音频。
+    expected_keywords: [cost control, delivery risk, next quarter, 音频]
+    required_tools: [translation.zh_en, speech.tts]
+    risk_flags: [缺少音频生成步骤, 英文不自然]
+    rubric_notes: 应体现翻译和 TTS 工具链。

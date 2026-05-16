@@ -38,6 +38,7 @@ starter_questions:
   - 角色立绘怎样保证和玩法需求一致？
 tools:
   - vision.describe
+  - image.generate
   - attachment.video_notice
 workflows:
   - id: mentor_chat

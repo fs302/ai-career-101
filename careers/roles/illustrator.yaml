@@ -38,6 +38,7 @@ starter_questions:
   - 如何让插画画面更有故事感？
 tools:
   - vision.describe
+  - image.generate
   - attachment.video_notice
 workflows:
   - id: mentor_chat

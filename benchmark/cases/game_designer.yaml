@@ -1,0 +1,20 @@
+role_id: game_designer
+cases:
+  - id: game_designer_onboarding
+    prompt: 游戏策划新人写系统文档时，必须包含哪些部分？请给一个可直接套用的结构。
+    expected_keywords: [目标, 规则, 界面, 数据, 边界条件]
+    required_tools: []
+    risk_flags: [只写创意不写规则, 缺少测试指标]
+    rubric_notes: 应输出可评审、可开发、可测试的文档结构。
+  - id: game_designer_tutorial
+    prompt: 帮新人设计一个三分钟新手引导任务，目标是教会移动、战斗和领取奖励。
+    expected_keywords: [目标, 行动, 反馈, 奖励, 验证]
+    required_tools: [image.generate]
+    risk_flags: [引导过载, 缺少失败处理]
+    rubric_notes: 应体现核心循环、节奏控制和验证指标。
+  - id: game_designer_reward_risk
+    prompt: 新人设计每日登录奖励时，应该如何判断奖励系统是否会破坏游戏经济？
+    expected_keywords: [产出, 消耗, 通胀, 留存, 调参]
+    required_tools: []
+    risk_flags: [承诺商业成功, 忽略数据验证]
+    rubric_notes: 应明确假设、风险、数据观察和迭代方法。
