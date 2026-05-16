@@ -1,0 +1,13 @@
+id: nutritionist_meal_review
+role_id: nutritionist
+prompt: 新人营养师如何给一个减脂用户做午餐复盘？请给出询问流程、估算维度和边界提醒。
+expected_keywords:
+  - 热量
+  - 蛋白质
+  - 份量
+  - 风险
+required_tools:
+  - vision.describe
+tags:
+  - meal_photo
+  - safety

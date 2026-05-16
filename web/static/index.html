@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AI-Career-101</title>
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <nav class="top-nav chat-nav">
+      <a class="nav-brand" href="/">AI-Career-101</a>
+      <div>
+        <a href="/chat">对话</a>
+        <a href="/benchmark">Benchmark</a>
+      </div>
+    </nav>
+    <main class="app-shell">
+      <aside class="sidebar">
+        <div class="sidebar-actions">
+          <button class="icon-button" type="button" aria-label="菜单">☰</button>
+          <button class="icon-button" type="button" aria-label="搜索">⌕</button>
+        </div>
+        <div class="brand">
+          <h1>AI-Career-101</h1>
+          <p>职业新人导师</p>
+        </div>
+        <div class="sidebar-tabs" role="tablist" aria-label="侧边栏">
+          <button id="rolesTab" class="tab-button active" type="button">职业</button>
+          <button id="historyTab" class="tab-button" type="button">历史</button>
+        </div>
+        <div id="roleList" class="role-list sidebar-panel active" aria-label="职业列表"></div>
+        <div id="historyList" class="history-list sidebar-panel" aria-label="历史对话"></div>
+      </aside>
+
+      <section class="chat-panel">
+        <header class="chat-header compact">
+          <div>
+            <p id="roleCategory" class="eyebrow">选择职业</p>
+            <h2 id="roleName">职业导师</h2>
+            <p id="roleTagline">选择一个职业后开始对话。</p>
+          </div>
+          <div class="header-actions">
+            <label class="model-picker">
+              <span>MODEL</span>
+              <select id="modelSelect">
+                <option value="minimax-m2.7">Minimax-M2.7</option>
+                <option value="deepseek-v3.2">DeepSeek-V3.2</option>
+                <option value="deepseek-reasoner">DeepSeek Reasoner</option>
+                <option value="deepseek-chat">DeepSeek Chat</option>
+              </select>
+            </label>
+            <button id="resetBtn" class="secondary-button" type="button">清空会话</button>
+          </div>
+        </header>
+
+        <section id="welcomePanel" class="welcome-panel">
+          <p id="welcomeKicker">AI-Career-101</p>
+          <h2 id="welcomeTitle">需要我帮你适应哪个职业？</h2>
+        </section>
+
+        <div id="starterQuestions" class="starter-row"></div>
+        <div id="messages" class="messages" aria-live="polite"></div>
+
+        <form id="chatForm" class="composer">
+          <div id="attachmentTray" class="attachment-tray"></div>
+          <div id="toolTray" class="tool-tray"></div>
+          <div class="composer-box">
+            <label class="attach-button" title="添加图片或视频">
+              <input id="fileInput" type="file" accept="image/*,video/*" multiple>
+              <span>+</span>
+            </label>
+            <textarea id="messageInput" rows="1" placeholder="给职业导师发送消息"></textarea>
+            <button id="sendBtn" type="submit" aria-label="发送">↑</button>
+          </div>
+        </form>
+      </section>
+    </main>
+    <script src="/static/app.js"></script>
+  </body>
+</html>

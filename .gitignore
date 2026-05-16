@@ -1,0 +1,9 @@
+.env
+__pycache__/
+*.py[cod]
+.pytest_cache/
+web/static/generated/
+data/benchmark_runs/
+.DS_Store
+.venv/
+venv/

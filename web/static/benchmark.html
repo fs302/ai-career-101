@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AI-Career-101 Benchmark</title>
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body class="benchmark-page">
+    <nav class="top-nav">
+      <a class="nav-brand" href="/">AI-Career-101</a>
+      <div>
+        <a href="/chat">对话</a>
+        <a href="/benchmark">Benchmark</a>
+      </div>
+    </nav>
+    <main class="benchmark-main">
+      <header class="benchmark-header">
+        <div>
+          <p class="eyebrow">LLM Related Benchmark</p>
+          <h1>职业完成度矩阵</h1>
+          <p>展示每个职业在不同模型下的最新完成度。第一阶段使用本地 YAML case + JSON run result。</p>
+        </div>
+        <button id="runBenchmarkBtn" class="secondary-button" type="button">运行 3 个样例 Case</button>
+      </header>
+      <section id="benchmarkStatus" class="benchmark-status">加载中...</section>
+      <section class="table-scroll benchmark-table-wrap">
+        <table id="benchmarkTable">
+          <thead>
+            <tr>
+              <th>职业</th>
+              <th>minimax-m2.7</th>
+              <th>deepseek-v3.2</th>
+              <th>deepseek-reasoner</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+    </main>
+    <script src="/static/benchmark.js"></script>
+  </body>
+</html>
