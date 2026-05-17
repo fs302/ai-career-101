@@ -1345,6 +1345,25 @@ textarea::placeholder {
     grid-template-columns: 1fr;
   }
 
+  .chat-panel {
+    overflow: hidden;
+  }
+
+  .messages {
+    overflow-x: hidden;
+    word-break: break-word;
+  }
+
+  .message {
+    max-width: 100%;
+    overflow-wrap: break-word;
+  }
+
+  .attachment-tray {
+    overflow-x: auto;
+    max-width: 100%;
+  }
+
   .sidebar {
     max-height: 42vh;
     border-bottom: 1px solid #111;
@@ -1383,29 +1402,41 @@ textarea::placeholder {
   }
 
   .composer-box {
-    grid-template-columns: 34px minmax(0, 1fr) 34px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    border-radius: 24px;
+    padding: 8px 12px;
   }
 
   .composer-model-picker {
-    grid-column: 1 / -1;
-    grid-row: 1;
-    justify-self: start;
-    max-width: 100%;
-  }
-
-  .composer-box textarea {
-    grid-column: 2;
-    grid-row: 2;
+    order: 1;
+    flex: 1 1 auto;
+    min-width: 120px;
+    max-width: 160px;
   }
 
   .attach-button {
-    grid-column: 1;
-    grid-row: 2;
+    order: 2;
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+  }
+
+  .composer-box textarea {
+    order: 3;
+    flex: 1 1 100%;
+    min-height: 36px;
+    max-height: 120px;
   }
 
   #sendBtn {
-    grid-column: 3;
-    grid-row: 2;
+    order: 4;
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    border-radius: 50%;
   }
 }
 
