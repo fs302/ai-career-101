@@ -1401,26 +1401,43 @@ textarea::placeholder {
     padding: 10px 14px 16px;
   }
 
+  .composer {
+    padding: 10px 14px 16px;
+    box-sizing: border-box;
+    width: 100vw;
+    overflow: hidden;
+  }
+
+  #attachmentTray,
+  #toolTray {
+    width: 100%;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+  }
+
   .composer-box {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     border-radius: 24px;
-    padding: 8px 12px;
+    padding: 8px 10px;
+    width: 100%;
+    box-sizing: border-box;
+    background: var(--panel);
   }
 
   .composer-model-picker {
     order: 1;
     flex: 1 1 auto;
-    min-width: 120px;
-    max-width: 160px;
+    min-width: 80px;
+    max-width: 120px;
   }
 
   .attach-button {
     order: 2;
-    width: 34px;
-    height: 34px;
+    width: 32px;
+    height: 32px;
     flex-shrink: 0;
   }
 
@@ -1433,10 +1450,22 @@ textarea::placeholder {
 
   #sendBtn {
     order: 4;
-    width: 34px;
-    height: 34px;
+    width: 32px;
+    height: 32px;
     flex-shrink: 0;
     border-radius: 50%;
+    background: var(--accent);
+    color: #000;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 10;
+    position: relative;
+  }
+
+  #sendBtn:disabled {
+    background: #444;
+    cursor: not-allowed;
   }
 }
 
