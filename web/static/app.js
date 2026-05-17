@@ -36,13 +36,34 @@ const THINKING_STAGES = [
   "解析 Markdown 输出",
 ];
 
-function addMessage(kind, text) {
+function addMessage(kind, text, imageUrls) {
   const item = document.createElement("div");
   item.className = `message ${kind}`;
   if (kind.includes("assistant")) {
     item.innerHTML = renderMarkdown(text);
   } else {
-    item.textContent = text;
+    // User message: show text + image thumbnails
+    const textEl = document.createElement("div");
+    textEl.textContent = text;
+    item.appendChild(textEl);
+    if (imageUrls && imageUrls.length > 0) {
+      const imgContainer = document.createElement("div");
+      imgContainer.className = "message-images";
+      imageUrls.forEach((src) => {
+        const img = document.createElement("img");
+        img.src = src;
+        img.className = "message-image-thumb";
+        img.addEventListener("click", () => {
+          const viewer = document.createElement("div");
+          viewer.className = "image-viewer-overlay";
+          viewer.innerHTML = `<img src="${src}" class="image-viewer-full"/><span class="image-viewer-close">×</span>`;
+          viewer.addEventListener("click", () => viewer.remove());
+          document.body.appendChild(viewer);
+        });
+        imgContainer.appendChild(img);
+      });
+      item.appendChild(imgContainer);
+    }
   }
   messages.appendChild(item);
   messages.scrollTop = messages.scrollHeight;
@@ -350,7 +371,7 @@ function restoreHistory(id) {
   renderToolTray();
   renderRoles();
   renderStarterQuestions();
-  currentMessages.forEach((message) => addMessage(message.kind, message.text));
+  currentMessages.forEach((message) => addMessage(message.kind, message.text, message.images || []));
   updateConversationMode();
   switchSidebarTab("history");
 }
@@ -512,10 +533,24 @@ chatForm.addEventListener("submit", async (event) => {
   if (sessionId) formData.append("session_id", sessionId);
   selectedFiles.forEach((file) => formData.append("files", file));
 
+  // Read image files as data URLs for preview
+  const imagePreviews = [];
+  const imageFiles = selectedFiles.filter((f) => f.type.startsWith("image/"));
+  await Promise.all(
+    imageFiles.map(
+      (file) =>
+        new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = () => imagePreviews.push(reader.result);
+          reader.readAsDataURL(file);
+        }),
+    ),
+  );
+
   const fileSummary = selectedFiles.length ? `\n\n附件：${selectedFiles.map((file) => file.name).join("、")}` : "";
   const userText = `${message || "请根据附件给出建议。"}${fileSummary}`;
-  currentMessages.push({ kind: "user", text: userText, created_at: new Date().toISOString() });
-  addMessage("user", userText);
+  currentMessages.push({ kind: "user", text: userText, images: imagePreviews, created_at: new Date().toISOString() });
+  addMessage("user", userText, imagePreviews);
   updateConversationMode();
   messageInput.value = "";
   selectedFiles = [];
