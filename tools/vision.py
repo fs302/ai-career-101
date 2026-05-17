@@ -16,18 +16,25 @@ class VisionDescribeTool(Tool):
             raise ValueError("image attachment is required")
 
         suffix = Path(image.filename).suffix or ".png"
-        with NamedTemporaryFile(suffix=suffix, delete=True) as temp_file:
+        prompt = (
+            f"你正在辅助「{context.role.name}」职业导师理解用户上传的图片。"
+            "请用中文描述与职业任务相关的可见信息，避免过度推断。"
+        )
+
+        # Keep temp file alive until describe_image completes
+        with NamedTemporaryFile(suffix=suffix, delete=False) as temp_file:
             temp_file.write(image.content)
             temp_file.flush()
-            prompt = (
-                f"你正在辅助「{context.role.name}」职业导师理解用户上传的图片。"
-                "请用中文描述与职业任务相关的可见信息，避免过度推断。"
-            )
-            response = context.model_router.describe_image(temp_file.name, prompt=prompt)
+            temp_path = temp_file.name
 
-        return ToolResult(
-            tool_id=self.id,
-            ok=True,
-            content=response.content,
-            data={"filename": image.filename, "model": response.model},
-        )
+        try:
+            response = context.model_router.describe_image(temp_path, prompt=prompt)
+            return ToolResult(
+                tool_id=self.id,
+                ok=True,
+                content=response.content,
+                data={"filename": image.filename, "model": response.model},
+            )
+        finally:
+            # Clean up temp file after use
+            Path(temp_path).unlink(missing_ok=True)

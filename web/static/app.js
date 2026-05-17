@@ -527,7 +527,7 @@ chatForm.addEventListener("submit", async (event) => {
 
   try {
     const controller = new AbortController();
-    const timeout = window.setTimeout(() => controller.abort(), 120000);
+    const timeout = window.setTimeout(() => controller.abort(), 300000);
     const response = await fetch("/api/chat", { method: "POST", body: formData, signal: controller.signal });
     window.clearTimeout(timeout);
     const data = await response.json();
@@ -541,7 +541,7 @@ chatForm.addEventListener("submit", async (event) => {
     persistCurrentConversation();
   } catch (error) {
     stopThinking();
-    const errorText = error.name === "AbortError" ? "请求超时：模型超过 120 秒没有返回。" : `请求失败：${error.message}`;
+    const errorText = error.name === "AbortError" ? "请求超时：模型超过 300 秒没有返回。" : `请求失败：${error.message}`;
     pending.textContent = errorText;
     pending.className = "message assistant error";
     currentMessages.push({ kind: "assistant error", text: errorText, created_at: new Date().toISOString() });
