@@ -16,21 +16,21 @@ providers:
         display_name: "MiniMax-M2.1"
 
   sjtu:
-    display_name: "SJTU (代理)"
+    display_name: "SJTU 交大代理"
     base_url: "https://models.sjtu.edu.cn/api/v1"
     api_key_env: "SJTU_API_KEY"
     default_model: "minimax-m2.7"
     models:
       - id: "minimax-m2.7"
-        display_name: "Minimax-M2.7"
+        display_name: "MiniMax-M2.7"
       - id: "glm-5.1"
         display_name: "GLM-5.1"
+      - id: "deepseek-chat"
+        display_name: "DeepSeek-Chat (V3.2 非思考)"
       - id: "qwen3.5-27b"
-        display_name: "Qwen3.5-27b"
-      - id: "deepseek-v3.2"
-        display_name: "DeepSeek-V3.2"
+        display_name: "Qwen3.5-27B"
 
 # Default configuration
-default_provider: "minimax"
+default_provider: "sjtu"
 default_models:
-  - "MiniMax-M2.7"
+  - "minimax-m2.7"
